@@ -5,6 +5,8 @@ const SLOT_SCENE = preload("res://scenes/ui/inventory_slot.tscn")
 
 @onready var grid = $Panel/GridContainer
 
+
+var start_time: int = 0
 func _ready():
 	# При старте ищем игрока и его инвентарь
 	# В сетевой игре важно найти ИМЕННО СВОЕГО игрока

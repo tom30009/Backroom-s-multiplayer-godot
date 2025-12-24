@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://dguul0ok3n615"]
+
+[ext_resource type="PackedScene" uid="uid://dp11w8dklo4dl" path="res://assets/models/furneture/wooden cabine/painted_wooden_cabinet_1k.gltf" id="1_n6cbt"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_5vrcj"]
+size = Vector3(1.8000001, 1.6, 0.90000004)
+
+[node name="StaticBody3D" type="StaticBody3D"]
+
+[node name="painted_wooden_cabinet_1k" parent="." instance=ExtResource("1_n6cbt")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, -1, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.940697e-08, -2.9802322e-08, -0.049999982)
+shape = SubResource("BoxShape3D_5vrcj")

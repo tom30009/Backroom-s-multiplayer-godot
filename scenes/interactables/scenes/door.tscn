@@ -1,8 +1,15 @@
-[gd_scene load_steps=5 format=3 uid="uid://dr7wij0udn7tr"]
+[gd_scene load_steps=9 format=3 uid="uid://dr7wij0udn7tr"]
 
 [ext_resource type="Script" uid="uid://wsciqm255f77" path="res://scripts/interactables/door.gd" id="1_ocme3"]
+[ext_resource type="Texture2D" uid="uid://c3w75lcla3t77" path="res://other/rgba-noise-medium.png" id="2_bcmf1"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ocme3"]
+albedo_color = Color(0.5125608, 0.25458673, 0.13298294, 1)
+metallic = 1.0
+metallic_texture = ExtResource("2_bcmf1")
 
 [sub_resource type="BoxMesh" id="BoxMesh_bcmf1"]
+material = SubResource("StandardMaterial3D_ocme3")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ocme3"]
 
@@ -13,6 +20,14 @@ properties/0/replication_mode = 1
 properties/1/path = NodePath(".:is_locked")
 properties/1/spawn = true
 properties/1/replication_mode = 1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bcmf1"]
+albedo_color = Color(0.45840502, 0.45840508, 0.45840502, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_ocme3"]
+material = SubResource("StandardMaterial3D_bcmf1")
+radius = 0.25
+height = 0.475
 
 [node name="door" type="StaticBody3D"]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
@@ -31,3 +46,11 @@ shape = SubResource("BoxShape3D_ocme3")
 replication_config = SubResource("SceneReplicationConfig_ocme3")
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0.85, 0.9, 0.1)
+mesh = SubResource("SphereMesh_ocme3")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0.85, 0.9, -0.1)
+mesh = SubResource("SphereMesh_ocme3")

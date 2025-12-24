@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://fv571bg0rdfo"]
+[gd_scene load_steps=9 format=3 uid="uid://fv571bg0rdfo"]
 
 [ext_resource type="Script" uid="uid://qrsn0i00fn8k" path="res://scripts/managers/smart_monster.gd" id="1_f6l5j"]
 [ext_resource type="AudioStream" uid="uid://2grh5uxce02d" path="res://assets/sounds/monster-breathing-67456.mp3" id="3_u4vim"]
+[ext_resource type="PackedScene" uid="uid://bk3oh1xgt1wv5" path="res://assets/models/Monstrs/scene.gltf" id="4_oy6hn"]
 [ext_resource type="AudioStream" uid="uid://c3cu438ec5hvf" path="res://assets/sounds/backrooms-bacteria.mp3" id="4_rtl4b"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_q5eye"]
@@ -33,7 +34,16 @@ properties/7/path = NodePath("ChaseSound:stream_paused")
 properties/7/spawn = false
 properties/7/replication_mode = 2
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_u4vim"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rtl4b"]
+albedo_color = Color(0.9006056, 3.4172833e-06, 1.92523e-06, 1)
+emission_enabled = true
+emission = Color(0.7490196, 0, 0, 1)
+emission_energy_multiplier = 23.2
+
+[sub_resource type="SphereMesh" id="SphereMesh_oy6hn"]
+material = SubResource("StandardMaterial3D_rtl4b")
+radius = 0.05
+height = 0.145
 
 [node name="SmartMonster" type="CharacterBody3D"]
 collision_layer = 7
@@ -48,19 +58,6 @@ patrol_wait_time = 0.0
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.012500048, 0)
 shape = SubResource("CapsuleShape3D_q5eye")
-
-[node name="Sketchfab_Scene" parent="."]
-_import_path = NodePath("")
-unique_name_in_owner = false
-process_mode = 0
-process_priority = 0
-process_physics_priority = 0
-process_thread_group = 0
-physics_interpolation_mode = 0
-auto_translate_mode = 0
-editor_description = ""
-transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 0, -1, 0)
-script = null
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
 avoidance_enabled = true
@@ -85,5 +82,13 @@ max_distance = 70.0
 
 [node name="RandomVoice" type="AudioStreamPlayer3D" parent="."]
 
+[node name="Sketchfab_Scene" parent="." instance=ExtResource("4_oy6hn")]
+transform = Transform3D(-8.305164e-08, 0, -1.9, 0, 1.9, 0, 1.9, 0, -8.305164e-08, -1.065, -3.005, 10.755)
+
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource("CapsuleMesh_u4vim")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, 0.83, 0.06)
+mesh = SubResource("SphereMesh_oy6hn")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.87975323, -0.24861051, -0.09584575, 0.23681943, 0.93211836, 0, 0.0847106, -0.023938471, 0.9953962, 0.25, 0.845, 0.06)
+mesh = SubResource("SphereMesh_oy6hn")

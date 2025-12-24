@@ -1,14 +1,17 @@
-[gd_scene load_steps=28 format=3 uid="uid://b6653djm7tel5"]
+[gd_scene load_steps=37 format=3 uid="uid://b6653djm7tel5"]
 
 [ext_resource type="Script" uid="uid://bjweh3iqtxrmn" path="res://scripts/managers/player.gd" id="1_uig86"]
-[ext_resource type="Texture2D" uid="uid://cus1gt25wea2t" path="res://other/815afa98d71059ef16374c36cc487cae-3737977490.jpg" id="2_3jhsl"]
+[ext_resource type="Texture2D" uid="uid://csdrblcm2mjqw" path="res://assets/texture/rusty_metal_05_diff_1k.jpg" id="2_k07tx"]
 [ext_resource type="FontFile" uid="uid://d1bi00cukbxbx" path="res://other/better-vcr.ttf" id="2_vefpe"]
 [ext_resource type="PackedScene" uid="uid://div1wxi883ats" path="res://scenes/ui/inventory_ui.tscn" id="3_84j7k"]
 [ext_resource type="Shader" uid="uid://djaim7ixsk6gu" path="res://scenes/other/shaders/Player.gdshader" id="3_ohiew"]
+[ext_resource type="Script" uid="uid://bgdl3osnatmft" path="res://scripts/ui/CamcorderUI.gd" id="3_rw3ki"]
 [ext_resource type="AudioStream" uid="uid://c6hw2wjvcox8a" path="res://assets/sounds/walking.mp3" id="5_8kldo"]
 [ext_resource type="Script" uid="uid://b75nvh24uflm8" path="res://scripts/components/inventory.gd" id="6_b3diy"]
 [ext_resource type="Shader" uid="uid://f10xuup0o7kn" path="res://scenes/other/shaders/VHS_test.gdshader" id="6_rw3ki"]
 [ext_resource type="Texture2D" uid="uid://c3w75lcla3t77" path="res://other/rgba-noise-medium.png" id="7_imgtv"]
+[ext_resource type="FontFile" uid="uid://bmya5dxe84pfu" path="res://other/VCR_OSD_MONO_1.001.ttf" id="8_imgtv"]
+[ext_resource type="Texture2D" uid="uid://c1ea0543t8y0y" path="res://assets/texture/Pack/carpet/carpet_color.png" id="11_3ys8e"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_40svl"]
 
@@ -25,6 +28,20 @@ albedo_color = Color(0.40199232, 0.39899144, 0, 1)
 
 [sub_resource type="SphereMesh" id="SphereMesh_uig86"]
 material = SubResource("StandardMaterial3D_b3diy")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wo77t"]
+albedo_texture = ExtResource("2_k07tx")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_a12us"]
+material = SubResource("StandardMaterial3D_wo77t")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a12us"]
+emission_enabled = true
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 8.4
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_k07tx"]
+material = SubResource("StandardMaterial3D_a12us")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_84j7k"]
 albedo_color = Color(0.20707613, 0.19853988, 0.19026044, 1)
@@ -76,28 +93,36 @@ outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_a12us"]
 shader = ExtResource("6_rw3ki")
-shader_parameter/vhs_resolution = Vector2(320, 240)
-shader_parameter/samples = 2
-shader_parameter/crease_noise = 1.0
-shader_parameter/crease_opacity = 0.5
-shader_parameter/filter_intensity = 0.1
-shader_parameter/tape_crease_smear = 0.2
-shader_parameter/tape_crease_intensity = 0.2
-shader_parameter/tape_crease_jitter = 0.1
-shader_parameter/tape_crease_speed = 0.5
-shader_parameter/tape_crease_discoloration = 1.0
-shader_parameter/bottom_border_thickness = 6.0
-shader_parameter/bottom_border_jitter = 6.0
-shader_parameter/noise_intensity = 0.1
-shader_parameter/noise_texture = ExtResource("7_imgtv")
+shader_parameter/brightness = 1.1
+shader_parameter/color_displacement = 1.5
+shader_parameter/grain_intensity = 0.02
+shader_parameter/distortion = 0.01
+shader_parameter/scanline_opacity = 0.1
+shader_parameter/vignette_softness = 0.35
+shader_parameter/tint = Color(1, 0.98, 0.9, 1)
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_vefpe"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h2yv8"]
+albedo_color = Color(0.16809729, 0.082229994, 0.06299454, 1)
+albedo_texture = ExtResource("11_3ys8e")
+metallic = 1.0
+metallic_texture = ExtResource("7_imgtv")
+
+[sub_resource type="SphereMesh" id="SphereMesh_yporg"]
+material = SubResource("StandardMaterial3D_h2yv8")
+radius = 0.35
+height = 0.3
+radial_segments = 10
+rings = 10
+is_hemisphere = true
 
 [node name="Player" type="CharacterBody3D"]
 transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 0, 0, 0)
 collision_layer = 2
 script = ExtResource("1_uig86")
-FLASHLIGHT_DRAIN = 5.0
+MAX_STAMINA = 120.0
+STAMINA_DRAIN = 30.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_40svl")
@@ -110,13 +135,13 @@ mesh = SubResource("CapsuleMesh_al8ar")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.57199705, -0.034348637)
 
 [node name="Flashlight" type="SpotLight3D" parent="Head"]
-transform = Transform3D(0.83333325, 0, 0, 0, 0.83333325, 0, 0, 0, 0.83333325, 0, 0.40710783, -0.36462697)
+transform = Transform3D(0.83333325, 0, 0, 0, 0.83333325, 0, 0, 0, 0.83333325, 0, 0.432, -0.393)
 visible = false
 light_color = Color(1, 1, 0.5686275, 1)
-light_energy = 3.5
-light_projector = ExtResource("2_3jhsl")
+light_energy = 8.33
 shadow_enabled = true
-spot_range = 20.0
+spot_range = 43.72
+spot_angle = 24.0
 
 [node name="Camera3D" type="Camera3D" parent="Head"]
 transform = Transform3D(0.83333325, 0, 0, 0, 0.83333325, 0, 0, 0, 0.83333325, 0, 0.29499996, -0.322)
@@ -130,6 +155,16 @@ skeleton = NodePath("../..")
 [node name="HEad" type="MeshInstance3D" parent="Head"]
 transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 0, 0.19800001, 0)
 mesh = SubResource("SphereMesh_uig86")
+
+[node name="MeshInstance3D8" type="MeshInstance3D" parent="Head"]
+transform = Transform3D(0.09999998, 0, 0, 0, -4.3711377e-09, 0.09999998, 0, -0.09999998, -4.3711377e-09, 0, 0.42800295, -0.25365135)
+mesh = SubResource("CylinderMesh_a12us")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D9" type="MeshInstance3D" parent="Head"]
+transform = Transform3D(0.04999999, 0, 0, 0, -2.1855688e-09, -0.04999999, 0, 0.04999999, -2.1855688e-09, 0, 0.433003, -0.30765137)
+mesh = SubResource("CylinderMesh_k07tx")
+skeleton = NodePath("../..")
 
 [node name="MeshInstance3D3" type="MeshInstance3D" parent="Head"]
 transform = Transform3D(0.094884664, -0.030782491, 0.0070242155, 0.022859557, 0.05162955, -0.08253381, 0.021779392, 0.079917654, 0.056025267, 0.12682629, 0.12015605, -0.27348626)
@@ -175,6 +210,7 @@ collision_mask = 3
 replication_config = SubResource("SceneReplicationConfig_gy20a")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+script = ExtResource("3_rw3ki")
 
 [node name="InventoryUI" parent="CanvasLayer" instance=ExtResource("3_84j7k")]
 visible = false
@@ -217,13 +253,42 @@ text = "YOU ARE DEAD"
 label_settings = SubResource("LabelSettings_ohiew")
 
 [node name="VHS test" type="ColorRect" parent="CanvasLayer"]
-visible = false
 material = SubResource("ShaderMaterial_a12us")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="DateLabel" type="Label" parent="CanvasLayer"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 27.0
+offset_top = -88.0
+offset_right = 211.0
+offset_bottom = -26.0
+grow_vertical = 0
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_constants/outline_size = 0
+theme_override_constants/shadow_outline_size = 1
+theme_override_fonts/font = ExtResource("8_imgtv")
+
+[node name="TimerLabel" type="Label" parent="CanvasLayer"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 27.0
+offset_top = -135.0
+offset_right = 184.0
+offset_bottom = -88.0
+grow_vertical = 0
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_constants/outline_size = 0
+theme_override_constants/shadow_outline_size = 1
+theme_override_fonts/font = ExtResource("8_imgtv")
 
 [node name="SpectatorArm" type="SpringArm3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7864721, 0)
@@ -237,3 +302,7 @@ max_distance = 20.0
 
 [node name="Inventory" type="Node3D" parent="."]
 script = ExtResource("6_b3diy")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.99999976, 0, 0, 0, 0.99999976, 0, 0, 0, 0.99999976, 0, 0.873, -0.04)
+mesh = SubResource("SphereMesh_yporg")

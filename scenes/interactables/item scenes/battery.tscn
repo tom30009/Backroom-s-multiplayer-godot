@@ -1,14 +1,25 @@
-[gd_scene load_steps=7 format=3 uid="uid://bgj1k8monhyd6"]
+[gd_scene load_steps=11 format=3 uid="uid://bgj1k8monhyd6"]
 
 [ext_resource type="Script" uid="uid://bwurdceifo4yc" path="res://scripts/interactables/pickable_item.gd" id="1_tva6b"]
 [ext_resource type="Resource" uid="uid://d381p366ecpis" path="res://resources/item/Battery.tres" id="2_uykay"]
+[ext_resource type="FontFile" uid="uid://bmya5dxe84pfu" path="res://other/VCR_OSD_MONO_1.001.ttf" id="3_uykay"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_hkvj6"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_tva6b"]
 size = Vector3(0.2, 0.2, 0.4)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_37qic"]
+albedo_color = Color(0.050927535, 0.057680577, 0.060548745, 1)
+
 [sub_resource type="BoxMesh" id="BoxMesh_tva6b"]
+material = SubResource("StandardMaterial3D_37qic")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ncqbk"]
+albedo_color = Color(0.7644848, 0.74192446, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_hkvj6"]
+material = SubResource("StandardMaterial3D_ncqbk")
 
 [sub_resource type="BoxMesh" id="BoxMesh_uykay"]
 
@@ -28,8 +39,20 @@ shape = SubResource("BoxShape3D_tva6b")
 [node name="body" type="Node3D" parent="."]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="body"]
-transform = Transform3D(0.21000001, 0, 0, 0, 0.14400001, 0, 0, 0, 0.35, 0, 0, 0)
+transform = Transform3D(0.21000001, 0, 0, 0, 0.14400001, 0, 0, 0, 0.28, 0, 0, -0.05)
 mesh = SubResource("BoxMesh_tva6b")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="body"]
+transform = Transform3D(0.21, 0, 0, 0, 0.144, 0, 0, 0, 0.1, 0, 0, 0.14)
+mesh = SubResource("BoxMesh_hkvj6")
+skeleton = NodePath("../..")
+
+[node name="Label3D" type="Label3D" parent="body"]
+transform = Transform3D(-4.371139e-08, 1, 4.371139e-08, 0, -4.371139e-08, 1, 1, 4.371139e-08, 1.9106855e-15, 0, 0.075, 0)
+text = "9 VOlT"
+font = ExtResource("3_uykay")
+font_size = 15
+outline_size = 7
 
 [node name="MeshInstance3D3" type="MeshInstance3D" parent="body"]
 transform = Transform3D(0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, 0.05, 0, 0.2)
