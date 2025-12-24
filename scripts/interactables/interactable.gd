@@ -10,3 +10,5 @@ func interact():
 @rpc("any_peer", "call_local", "reliable")
 func _server_interact():
     pass # В каждой конкретной двери/предмете мы перепишем эту часть
+
+#turtle
