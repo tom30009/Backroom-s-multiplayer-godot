@@ -2,11 +2,17 @@ extends Node3D
 
 const PLAYER_SCENE = preload("res://scenes/Characters/Player.tscn")
 const MONSTER_SCENE = preload("res://scenes/Characters/SmartMonster.tscn")
+const KEY_SCENE = preload("res://scenes/interactables/item scenes/Pickup_KeyRed.tscn.tscn")
+const BATTERY_SCENE = preload("res://scenes/interactables/item scenes/battery.tscn")
 
 @onready var players_container = $Players
 @onready var player_spawns_container = $PlayerSpawns
 @onready var monster_spawns_container = $MonsterSpawns
 @onready var monster_timer = $MonsterTimer
+@onready var item_spawns_container = $ItemSpawns   # Точки спавна
+@onready var interactables_container = $Interactables
+
+
 
 func _ready():
 	# Если просто запустили сцену без сети
@@ -28,6 +34,9 @@ func _ready():
 			
 		print("Запуск таймера монстра...")
 		monster_timer.start()
+	if multiplayer.is_server():
+		spawn_level_loot()
+		
 
 func _on_monster_timer_timeout():
 	spawn_monster()
@@ -87,3 +96,80 @@ func add_player(id):
 func del_player(id):
 	if players_container.has_node(str(id)):
 		players_container.get_node(str(id)).queue_free()
+
+
+func spawn_random_key():
+	# 1. Получаем список всех маркеров
+	var spawns = item_spawns_container.get_children()
+	
+	if spawns.size() == 0:
+		print("ОШИБКА: Нет точек спавна для предметов (ItemSpawns)!")
+		return
+		
+	# 2. Выбираем случайную точку
+	var random_point = spawns.pick_random()
+	
+	# 3. Создаем ключ
+	var key = KEY_SCENE.instantiate()
+	
+	# 4. Ставим позицию и поворот как у маркера
+	key.global_position = random_point.global_position
+	key.rotation = random_point.rotation
+	
+	# 5. Добавляем в сцену.
+	# Благодаря MultiplayerSpawner (который следит за interactables_container),
+	# ключ появится у всех игроков автоматически!
+	interactables_container.add_child(key, true)
+	
+	print("Ключ заспавнен в точке: ", random_point.name)
+
+func spawn_loot():
+	var spawns = item_spawns_container.get_children()
+	spawns.shuffle() # Перемешиваем массив точек
+	
+	# Берем первую точку для ключа
+	var key_point = spawns.pop_front() # Берет первый элемент и удаляет его из списка
+	_spawn_item(KEY_SCENE, key_point)
+	
+	# Берем следующие 3 точки для батареек (если они остались)
+	for i in range(3):
+		if spawns.size() > 0:
+			var battery_point = spawns.pop_front()
+			_spawn_item(BATTERY_SCENE, battery_point)
+
+func _spawn_item(scene, point):
+	var item = scene.instantiate()
+	item.global_transform = point.global_transform
+	interactables_container.add_child(item, true)
+
+
+func spawn_level_loot():
+	# 1. Берем все доступные маркеры
+	var available_spawns = item_spawns_container.get_children()
+	
+	# 2. Перемешиваем их случайным образом
+	available_spawns.shuffle()
+	
+	# Проверка: хватит ли точек?
+	if available_spawns.size() == 0:
+		print("ОШИБКА: Нет точек ItemSpawns!")
+		return
+
+	# 3. Спавним ОДИН Ключ (берем первую точку и удаляем её из списка)
+	var key_point = available_spawns.pop_front()
+	_spawn_item(KEY_SCENE, key_point)
+	print("Ключ: ", key_point.name)
+	
+	# 4. Спавним БАТАРЕЙКИ (например, 3 штуки)
+	# Цикл сработает столько раз, сколько мы хотим, ИЛИ пока не кончатся точки
+	var battery_count = 3
+	for i in range(battery_count):
+		if available_spawns.size() > 0:
+			var point = available_spawns.pop_front() # Берем следующую точку
+			_spawn_item(BATTERY_SCENE, point)
+			print("Батарейка ", i+1, ": ", point.name)
+		else:
+			print("Не хватило точек спавна для всех батареек!")
+			break
+
+# Вспомогательная функция, чтобы не дублировать код

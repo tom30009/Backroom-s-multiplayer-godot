@@ -14,6 +14,10 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 @export var STAMINA_DRAIN: float = 20.0 # Трата в секунду
 @export var STAMINA_REGEN: float = 10.0 # Восстановление в секунду
 
+@export_category("Flashlight")
+@export var FLASHLIGHT_BATTERY: float = 100.0
+@export var FLASHLIGHT_DRAIN: float = 2.0 
+
 # --- ССЫЛКИ НА НОДЫ ---
 @onready var head = $Head
 @onready var camera = $Head/Camera3D
@@ -36,6 +40,9 @@ var is_exhausted = false      # Одышка
 # Звук шагов
 var step_timer = 0.0
 var step_interval = 0.6
+
+@export var current_battery: float = 100.0
+var flashlight_cooldown: float = 0.0 # Защита от спама кнопкой
 
 func _enter_tree():
 	set_multiplayer_authority(name.to_int())
@@ -77,11 +84,8 @@ func _input(event):
 	# БЛОКИРОВКА: Если не заспавнен И мы не в режиме зрителя -> выход
 	if not spawned and spectate_target == null: return 
 	
-	if event.is_action_pressed("flashlight"):
-		# Мы больше не меняем visible напрямую. Мы вызываем RPC-функцию.
-		if is_multiplayer_authority() and visible:
-		# Отправляем команду на включение/выключение
-			set_flashlight_state.rpc(not flashlight.visible)
+	if event.is_action_pressed("flashlight") and is_multiplayer_authority():
+		toggle_flashlight()
 	
 	# Вращение мыши
 	if event is InputEventMouseMotion:
@@ -159,7 +163,13 @@ func _physics_process(delta):
 		else:
 				step_timer = step_interval
 		move_and_slide()
-			
+		if flashlight_cooldown > 0:
+			flashlight_cooldown -= delta
+
+		if is_multiplayer_authority():
+			_process_flashlight(delta)
+
+		
 
 
 # --- ЗВУК ШАГОВ ---
@@ -176,6 +186,7 @@ func play_footstep(sprinting: bool):
 
 # --- КАМЕРА НАБЛЮДАТЕЛЯ ---
 func _process(delta):
+	# --- КАМЕРА НАБЛЮДАТЕЛЯ (твой старый код) ---
 	if spectate_target and is_instance_valid(spectate_target):
 		if not spectate_target.visible:
 			_start_spectating()
@@ -184,6 +195,21 @@ func _process(delta):
 		spectator_arm.global_position = spectator_arm.global_position.lerp(target_pos, delta * 20.0)
 	elif visible:
 		spectator_arm.global_position = global_position + Vector3(0, 1.5, 0)
+		
+	# --- НОВОЕ: ВИЗУАЛ МОРГАНИЯ ФОНАРИКА (Работает у всех) ---
+	# Мы проверяем flashlight.visible, который уже синхронизирован через RPC
+	if flashlight.visible:
+		# Проверяем заряд (он теперь синхронизирован через MultiplayerSynchronizer)
+		if current_battery < 25.0:
+			# Эффект моргания
+			if randf() > 0.85:
+				flashlight.light_energy = randf_range(0.1, 0.8)
+			else:
+				flashlight.light_energy = 1.0
+		else:
+			# Если заряд восстановился (или еще не сел)
+			if flashlight.light_energy != 1.0:
+				flashlight.light_energy = 1.0
 
 # --- СМЕРТЬ ---
 @rpc("any_peer", "call_local", "reliable")
@@ -235,6 +261,60 @@ func _try_interact():
 
 # --- Новая функция в player.gd ---
 
+
+
+
+func toggle_flashlight():
+	# Если прошло слишком мало времени с прошлого клика (0.2 сек)
+	if flashlight_cooldown > 0:
+		return
+		
+	# Если батарейка села — включать нельзя
+	if not flashlight.visible and current_battery <= 0:
+		# Тут можно проиграть звук "Click_Empty"
+		return 
+
+	# Ставим кулдаун и отправляем команду по сети
+	flashlight_cooldown = 0.2
+	set_flashlight_state.rpc(not flashlight.visible)
+
+# 2. Сетевое применение (RPC)
 @rpc("any_peer", "call_local", "reliable")
 func set_flashlight_state(is_on: bool):
 	flashlight.visible = is_on
+	
+	# Если включили - проиграть звук щелчка (можно добавить AudioStreamPlayer)
+	# if is_on: click_sound.play()
+
+# 3. Трата энергии
+# Эта функция вызывается только у Владельца (в _physics_process)
+func _process_flashlight(delta):
+	# Если фонарик выключен - энергию не тратим
+	if not flashlight.visible:
+		return
+		
+	# Тратим энергию
+	current_battery -= FLASHLIGHT_DRAIN * delta
+	
+	# Если села батарейка
+	if current_battery <= 0:
+		current_battery = 0
+		print("Батарейка села!")
+		set_flashlight_state.rpc(false)
+
+
+func recharge_battery(amount: float) -> bool:
+	if current_battery >= FLASHLIGHT_BATTERY:
+		print("Батарейка полная, зарядка не требуется.")
+		return false
+		
+	current_battery += amount
+	if current_battery > FLASHLIGHT_BATTERY:
+		current_battery = FLASHLIGHT_BATTERY
+		
+	print("Фонарик заряжен! Заряд: ", current_battery)
+	
+	# Возвращаем яркость в норму (на случай, если она моргала)
+	if flashlight: flashlight.light_energy = 1.0
+	
+	return true

@@ -27,11 +27,21 @@ func update_display(inventory):
 	for child in grid.get_children():
 		child.queue_free()
 	
-	# 2. Создаем новые слоты для каждого предмета
-	for item in inventory.items:
+	# 2. Создаем новые
+	# Используем range, чтобы получить индекс 'i' (0, 1, 2...)
+	for i in range(inventory.items.size()):
+		var item = inventory.items[i]
 		var slot = SLOT_SCENE.instantiate()
 		grid.add_child(slot)
-		slot.set_item(item)
+		
+		# --- ВОТ ЗДЕСЬ БЫЛА ОШИБКА ---
+		# Раньше было: slot.set_item(item)
+		# Теперь нужно передать ДВА аргумента: предмет и его номер
+		slot.set_item(item, i)
+		
+		# Подключаем нажатие кнопки
+		if not slot.slot_clicked.is_connected(inventory.use_item_by_index):
+			slot.slot_clicked.connect(inventory.use_item_by_index)
 
 func _input(event):
 	# Открытие/Закрытие на TAB

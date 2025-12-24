@@ -1,6 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://dr7wij0udn7tr"]
+[gd_scene load_steps=5 format=3 uid="uid://cl1jdx68s4exy"]
 
-[ext_resource type="Script" uid="uid://wsciqm255f77" path="res://scripts/interactables/door.gd" id="1_ocme3"]
+[ext_resource type="Script" uid="uid://wsciqm255f77" path="res://scripts/interactables/door.gd" id="1_ogccd"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_bcmf1"]
 
@@ -15,8 +15,8 @@ properties/1/spawn = true
 properties/1/replication_mode = 1
 
 [node name="door" type="StaticBody3D"]
-transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
-script = ExtResource("1_ocme3")
+transform = Transform3D(-8.742278e-08, 0, 2, 0, 2, 0, -2, 0, -8.742278e-08, 0, 0, 0)
+script = ExtResource("1_ogccd")
 speed = 0.8
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]

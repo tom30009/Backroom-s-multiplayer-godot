@@ -1,0 +1,84 @@
+[gd_scene load_steps=16 format=3 uid="uid://dya2k7h65lnsq"]
+
+[ext_resource type="Script" uid="uid://bwurdceifo4yc" path="res://scripts/interactables/pickable_item.gd" id="1_qgdmx"]
+[ext_resource type="Resource" uid="uid://c3hsaw15lp84s" path="res://resources/item/Key_red.tres" id="2_gpd5r"]
+[ext_resource type="Texture2D" uid="uid://csdrblcm2mjqw" path="res://assets/texture/rusty_metal_05_diff_1k.jpg" id="3_5ndso"]
+[ext_resource type="Texture2D" uid="uid://c3w75lcla3t77" path="res://other/rgba-noise-medium.png" id="4_ljrqn"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_hkvj6"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_tva6b"]
+size = Vector3(0.2, 0.2, 0.4)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qg7se"]
+albedo_texture = ExtResource("3_5ndso")
+
+[sub_resource type="TorusMesh" id="TorusMesh_5ndso"]
+material = SubResource("StandardMaterial3D_qg7se")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_gd8ty"]
+material = SubResource("StandardMaterial3D_qg7se")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7jp43"]
+albedo_texture = ExtResource("3_5ndso")
+
+[sub_resource type="BoxMesh" id="BoxMesh_j3jlh"]
+material = SubResource("StandardMaterial3D_7jp43")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m6uml"]
+albedo_color = Color(0.3515629, 0.3515629, 0.35156286, 1)
+
+[sub_resource type="TorusMesh" id="TorusMesh_ljrqn"]
+material = SubResource("StandardMaterial3D_m6uml")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bhdq2"]
+albedo_color = Color(0.9529412, 0, 0, 1)
+metallic = 1.0
+metallic_texture = ExtResource("4_ljrqn")
+normal_enabled = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_x52n7"]
+material = SubResource("StandardMaterial3D_bhdq2")
+
+[node name="Pickup_keyRed" type="StaticBody3D"]
+collision_layer = 3
+collision_mask = 3
+script = ExtResource("1_qgdmx")
+item_data = ExtResource("2_gpd5r")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_hkvj6")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.9802322e-08, 2.9802322e-08, -1.4901161e-08)
+shape = SubResource("BoxShape3D_tva6b")
+
+[node name="body" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="body"]
+transform = Transform3D(0.05, 0, -4.371139e-09, 0, -0.07, 0, 4.371139e-09, 0, 0.05, 0, 0, 0)
+mesh = SubResource("TorusMesh_5ndso")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="body"]
+transform = Transform3D(0.02, 0, 0, 0, -3.059797e-09, -0.02, 0, 0.07, -8.7422775e-10, 0, 0, 0.1)
+mesh = SubResource("CylinderMesh_gd8ty")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="body"]
+transform = Transform3D(0.060000002, 0, 0, 0, -0.02, 0, 0, 0, 0.030000001, 0.015, 0, 0.17)
+mesh = SubResource("BoxMesh_j3jlh")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="body"]
+transform = Transform3D(0.04, 0, -2.6226832e-09, 0, -0.02, 0, 3.496911e-09, 0, 0.03, 0.015, 0, 0.125)
+mesh = SubResource("BoxMesh_j3jlh")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.013800138, 0.050411478, -0.001449735, -0.012951114, 0.046127025, 0.007653669, -0.00646721, 0.015198051, -0.01842063, 0, 0, -0.04)
+mesh = SubResource("TorusMesh_ljrqn")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(-0.0011624809, 0.011624696, 0.04896193, 0.009883885, -0.00544515, 0.00652631, -0.0009784898, -0.068812914, 0.0077548064, 0, -0.005, -0.09)
+mesh = SubResource("BoxMesh_x52n7")

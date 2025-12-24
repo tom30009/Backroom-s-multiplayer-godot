@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c3w75lcla3t77"
-path.s3tc="res://.godot/imported/rgba-noise-medium.png-0362867589672419997fdcdc6a648215.s3tc.ctex"
+uid="uid://csdrblcm2mjqw"
+path.s3tc="res://.godot/imported/rusty_metal_05_diff_1k.jpg-ab69203359087b411095303c8fb173d6.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://other/rgba-noise-medium.png"
-dest_files=["res://.godot/imported/rgba-noise-medium.png-0362867589672419997fdcdc6a648215.s3tc.ctex"]
+source_file="res://assets/texture/rusty_metal_05_diff_1k.jpg"
+dest_files=["res://.godot/imported/rusty_metal_05_diff_1k.jpg-ab69203359087b411095303c8fb173d6.s3tc.ctex"]
 
 [params]
 

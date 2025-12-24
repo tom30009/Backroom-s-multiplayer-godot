@@ -57,6 +57,9 @@ properties/2/replication_mode = 1
 properties/3/path = NodePath("Head/Flashlight:visible")
 properties/3/spawn = true
 properties/3/replication_mode = 1
+properties/4/path = NodePath(".:current_battery")
+properties/4/spawn = true
+properties/4/replication_mode = 1
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8kldo"]
 shader = ExtResource("3_ohiew")
@@ -94,6 +97,7 @@ shader_parameter/noise_texture = ExtResource("7_imgtv")
 transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 0, 0, 0)
 collision_layer = 2
 script = ExtResource("1_uig86")
+FLASHLIGHT_DRAIN = 5.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_40svl")

@@ -6,19 +6,28 @@
 [sub_resource type="Theme" id="Theme_bngwc"]
 default_font = ExtResource("2_r4ab7")
 
-[node name="InventorySlot" type="PanelContainer"]
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="InventorySlot" type="Button"]
+custom_minimum_size = Vector2(80, 80)
+offset_right = 80.0
+offset_bottom = 80.0
+focus_mode = 0
 script = ExtResource("1_ru537")
 
 [node name="Icon" type="TextureRect" parent="."]
 custom_minimum_size = Vector2(80, 80)
-layout_mode = 2
+layout_mode = 0
+offset_right = 80.0
+offset_bottom = 80.0
 expand_mode = 1
 stretch_mode = 5
 
 [node name="Label" type="Label" parent="."]
-layout_mode = 2
+visible = false
+layout_mode = 0
+offset_left = 68.0
+offset_top = 64.0
+offset_right = 80.0
+offset_bottom = 80.0
 size_flags_horizontal = 8
 size_flags_vertical = 8
 theme = SubResource("Theme_bngwc")
