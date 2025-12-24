@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://b6653djm7tel5"]
+[gd_scene load_steps=28 format=3 uid="uid://b6653djm7tel5"]
 
 [ext_resource type="Script" uid="uid://bjweh3iqtxrmn" path="res://scripts/managers/player.gd" id="1_uig86"]
 [ext_resource type="Texture2D" uid="uid://cus1gt25wea2t" path="res://other/815afa98d71059ef16374c36cc487cae-3737977490.jpg" id="2_3jhsl"]
@@ -7,14 +7,16 @@
 [ext_resource type="Shader" uid="uid://djaim7ixsk6gu" path="res://scenes/other/shaders/Player.gdshader" id="3_ohiew"]
 [ext_resource type="AudioStream" uid="uid://c6hw2wjvcox8a" path="res://assets/sounds/walking.mp3" id="5_8kldo"]
 [ext_resource type="Script" uid="uid://b75nvh24uflm8" path="res://scripts/components/inventory.gd" id="6_b3diy"]
+[ext_resource type="Shader" uid="uid://f10xuup0o7kn" path="res://scenes/other/shaders/VHS_test.gdshader" id="6_rw3ki"]
+[ext_resource type="Texture2D" uid="uid://c3w75lcla3t77" path="res://other/rgba-noise-medium.png" id="7_imgtv"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_40svl"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8kldo"]
-albedo_color = Color(0.3020731, 0.30128467, 0, 1)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_imgtv"]
+albedo_color = Color(0.40392157, 0.4, 0, 1)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_al8ar"]
-material = SubResource("StandardMaterial3D_8kldo")
+material = SubResource("StandardMaterial3D_imgtv")
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_uig86"]
 
@@ -69,6 +71,23 @@ font_size = 66
 outline_size = 12
 outline_color = Color(0, 0, 0, 1)
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_a12us"]
+shader = ExtResource("6_rw3ki")
+shader_parameter/vhs_resolution = Vector2(320, 240)
+shader_parameter/samples = 2
+shader_parameter/crease_noise = 1.0
+shader_parameter/crease_opacity = 0.5
+shader_parameter/filter_intensity = 0.1
+shader_parameter/tape_crease_smear = 0.2
+shader_parameter/tape_crease_intensity = 0.2
+shader_parameter/tape_crease_jitter = 0.1
+shader_parameter/tape_crease_speed = 0.5
+shader_parameter/tape_crease_discoloration = 1.0
+shader_parameter/bottom_border_thickness = 6.0
+shader_parameter/bottom_border_jitter = 6.0
+shader_parameter/noise_intensity = 0.1
+shader_parameter/noise_texture = ExtResource("7_imgtv")
+
 [sub_resource type="SphereShape3D" id="SphereShape3D_vefpe"]
 
 [node name="Player" type="CharacterBody3D"]
@@ -80,7 +99,7 @@ script = ExtResource("1_uig86")
 shape = SubResource("CapsuleShape3D_40svl")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.82375973, 0, 0, 0, 1, 0, -0.1620453, 0)
+transform = Transform3D(0.99999976, 0, 0, 0, 0.82375973, 0, 0, 0, 0.99999976, 4.9670525e-08, -0.16204533, 0)
 mesh = SubResource("CapsuleMesh_al8ar")
 
 [node name="Head" type="Node3D" parent="."]
@@ -192,6 +211,15 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "YOU ARE DEAD"
 label_settings = SubResource("LabelSettings_ohiew")
+
+[node name="VHS test" type="ColorRect" parent="CanvasLayer"]
+visible = false
+material = SubResource("ShaderMaterial_a12us")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="SpectatorArm" type="SpringArm3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7864721, 0)
