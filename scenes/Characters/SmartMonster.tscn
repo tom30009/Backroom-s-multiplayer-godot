@@ -1,0 +1,89 @@
+[gd_scene load_steps=7 format=3 uid="uid://fv571bg0rdfo"]
+
+[ext_resource type="Script" uid="uid://qrsn0i00fn8k" path="res://scripts/managers/smart_monster.gd" id="1_f6l5j"]
+[ext_resource type="AudioStream" uid="uid://2grh5uxce02d" path="res://assets/sounds/monster-breathing-67456.mp3" id="3_u4vim"]
+[ext_resource type="AudioStream" uid="uid://c3cu438ec5hvf" path="res://assets/sounds/backrooms-bacteria.mp3" id="4_rtl4b"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_q5eye"]
+height = 2.025
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_jdkdi"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath("RoamSound:playing")
+properties/2/spawn = false
+properties/2/replication_mode = 2
+properties/3/path = NodePath("ChaseSound:playing")
+properties/3/spawn = false
+properties/3/replication_mode = 2
+properties/4/path = NodePath("RoamSound:autoplay")
+properties/4/spawn = false
+properties/4/replication_mode = 2
+properties/5/path = NodePath("RandomVoice:autoplay")
+properties/5/spawn = false
+properties/5/replication_mode = 2
+properties/6/path = NodePath("RandomVoice:playing")
+properties/6/spawn = false
+properties/6/replication_mode = 2
+properties/7/path = NodePath("ChaseSound:stream_paused")
+properties/7/spawn = false
+properties/7/replication_mode = 2
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_u4vim"]
+
+[node name="SmartMonster" type="CharacterBody3D"]
+collision_layer = 7
+collision_mask = 3
+script = ExtResource("1_f6l5j")
+SPEED_PATROL = 5.0
+HEARING_RANGE = 1.2
+VISION_RANGE = 30.0
+VISION_ANGLE = 120.0
+patrol_wait_time = 0.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.012500048, 0)
+shape = SubResource("CapsuleShape3D_q5eye")
+
+[node name="Sketchfab_Scene" parent="."]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 0
+auto_translate_mode = 0
+editor_description = ""
+transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 0, -1, 0)
+script = null
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+avoidance_enabled = true
+
+[node name="VisionRay" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, -0.39999998)
+target_position = Vector3(0, 0, -1)
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_jdkdi")
+
+[node name="RoamSound" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("3_u4vim")
+volume_db = 34.171
+unit_size = 33.79
+autoplay = true
+max_distance = 40.0
+
+[node name="ChaseSound" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("4_rtl4b")
+max_distance = 70.0
+
+[node name="RandomVoice" type="AudioStreamPlayer3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_u4vim")

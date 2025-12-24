@@ -1,0 +1,41 @@
+[gd_scene load_steps=7 format=3 uid="uid://bgj1k8monhyd6"]
+
+[ext_resource type="Script" uid="uid://bwurdceifo4yc" path="res://scripts/interactables/pickable_item.gd" id="1_tva6b"]
+[ext_resource type="Resource" uid="uid://d381p366ecpis" path="res://resources/item/Battery.tres" id="2_uykay"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_hkvj6"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_tva6b"]
+size = Vector3(0.2, 0.2, 0.4)
+
+[sub_resource type="BoxMesh" id="BoxMesh_tva6b"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_uykay"]
+
+[node name="battery" type="StaticBody3D"]
+collision_layer = 3
+collision_mask = 3
+script = ExtResource("1_tva6b")
+item_data = ExtResource("2_uykay")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_hkvj6")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.9802322e-08, 2.9802322e-08, -1.4901161e-08)
+shape = SubResource("BoxShape3D_tva6b")
+
+[node name="body" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="body"]
+transform = Transform3D(0.21000001, 0, 0, 0, 0.14400001, 0, 0, 0, 0.35, 0, 0, 0)
+mesh = SubResource("BoxMesh_tva6b")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="body"]
+transform = Transform3D(0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, 0.05, 0, 0.2)
+mesh = SubResource("BoxMesh_uykay")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="body"]
+transform = Transform3D(0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, -0.05, 0, 0.2)
+mesh = SubResource("BoxMesh_uykay")

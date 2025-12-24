@@ -1,0 +1,37 @@
+[gd_scene load_steps=3 format=3 uid="uid://b8k7kidk2yay0"]
+
+[ext_resource type="PackedScene" path="res://assets/models/Pack/the_backrooms_building_kit_for_sketchfab.glb" id="1_1f5qk"]
+[ext_resource type="Script" uid="uid://bt3gvdeuljonw" path="res://scripts/managers/level.gd" id="1_6kcyb"]
+
+[node name="rooms_test_01" type="Node3D"]
+script = ExtResource("1_6kcyb")
+
+[node name="Sketchfab_Scene" parent="." instance=ExtResource("1_1f5qk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -4)
+
+[node name="Players" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6993623, 0)
+
+[node name="Enemies" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 0)
+
+[node name="MonsterSpawns" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 3.2000003, 0)
+
+[node name="Marker3D" type="Marker3D" parent="MonsterSpawns"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0, 102)
+
+[node name="Marker3D2" type="Marker3D" parent="MonsterSpawns"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 108, 0, 179)
+
+[node name="Marker3D3" type="Marker3D" parent="MonsterSpawns"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 115, 0, 86)
+
+[node name="PlayerSpawns" type="Node3D" parent="."]
+
+[node name="Marker3D" type="Marker3D" parent="PlayerSpawns"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 3, 0)
+
+[node name="MonsterTimer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true

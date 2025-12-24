@@ -1,0 +1,61 @@
+[gd_scene load_steps=4 format=3 uid="uid://c5qtarw236atc"]
+
+[ext_resource type="Script" uid="uid://c8p5ag43f7i6r" path="res://scripts/managers/lobby.gd" id="1_44s4o"]
+[ext_resource type="FontFile" uid="uid://d1bi00cukbxbx" path="res://other/better-vcr.ttf" id="2_qvorb"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_6a8ue"]
+font = ExtResource("2_qvorb")
+font_size = 27
+
+[node name="Lobby" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_44s4o")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = -119.0
+offset_top = -40.0
+offset_right = 131.0
+offset_bottom = 140.0
+pivot_offset = Vector2(20, 20)
+
+[node name="ButtonHost" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Host"
+
+[node name="ButtonJoin" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Join"
+
+[node name="AddressEntry" type="LineEdit" parent="VBoxContainer"]
+layout_mode = 2
+placeholder_text = " ip:127.0.0.1"
+
+[node name="ButtonStart" type="Button" parent="VBoxContainer"]
+visible = false
+layout_mode = 2
+text = "START"
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = -195.0
+offset_top = -110.0
+offset_right = 190.0
+offset_bottom = 81.0
+text = "BACKROOM'S TOGETHER"
+label_settings = SubResource("LabelSettings_6a8ue")
+
+[node name="Label2" type="Label" parent="."]
+layout_mode = 0
+offset_left = -163.0
+offset_top = -85.0
+offset_right = -123.0
+offset_bottom = -62.0
+text = "Test"
+
+[connection signal="pressed" from="VBoxContainer/ButtonHost" to="." method="_on_button_host_pressed"]

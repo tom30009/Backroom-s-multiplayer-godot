@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://cc0ofvtdmdodo"
+path="res://.godot/imported/monster-breathing-no loop.mp3-4b9d4fbaa31f4b04d1ffe0007f735846.mp3str"
+
+[deps]
+
+source_file="res://assets/sounds/monster-breathing-no loop.mp3"
+dest_files=["res://.godot/imported/monster-breathing-no loop.mp3-4b9d4fbaa31f4b04d1ffe0007f735846.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

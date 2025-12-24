@@ -1,0 +1,207 @@
+[gd_scene load_steps=25 format=3 uid="uid://b6653djm7tel5"]
+
+[ext_resource type="Script" uid="uid://bjweh3iqtxrmn" path="res://scripts/managers/player.gd" id="1_uig86"]
+[ext_resource type="Texture2D" uid="uid://cus1gt25wea2t" path="res://other/815afa98d71059ef16374c36cc487cae-3737977490.jpg" id="2_3jhsl"]
+[ext_resource type="FontFile" uid="uid://d1bi00cukbxbx" path="res://other/better-vcr.ttf" id="2_vefpe"]
+[ext_resource type="PackedScene" uid="uid://div1wxi883ats" path="res://scenes/ui/inventory_ui.tscn" id="3_84j7k"]
+[ext_resource type="Shader" uid="uid://djaim7ixsk6gu" path="res://scenes/other/shaders/Player.gdshader" id="3_ohiew"]
+[ext_resource type="AudioStream" uid="uid://c6hw2wjvcox8a" path="res://assets/sounds/walking.mp3" id="5_8kldo"]
+[ext_resource type="Script" uid="uid://b75nvh24uflm8" path="res://scripts/components/inventory.gd" id="6_b3diy"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_40svl"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8kldo"]
+albedo_color = Color(0.3020731, 0.30128467, 0, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_al8ar"]
+material = SubResource("StandardMaterial3D_8kldo")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_uig86"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_b3diy"]
+albedo_color = Color(0.40199232, 0.39899144, 0, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_uig86"]
+material = SubResource("StandardMaterial3D_b3diy")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_84j7k"]
+albedo_color = Color(0.20707613, 0.19853988, 0.19026044, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_vefpe"]
+material = SubResource("StandardMaterial3D_84j7k")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mgiq2"]
+albedo_color = Color(0.34117648, 0.33333334, 0.34117648, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_3jhsl"]
+material = SubResource("StandardMaterial3D_mgiq2")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rw3ki"]
+albedo_color = Color(0, 0.21176471, 0.32941177, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_imgtv"]
+material = SubResource("StandardMaterial3D_rw3ki")
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_gy20a"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath("Head:rotation")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+properties/3/path = NodePath("Head/Flashlight:visible")
+properties/3/spawn = true
+properties/3/replication_mode = 1
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8kldo"]
+shader = ExtResource("3_ohiew")
+shader_parameter/intensity = 0.0
+shader_parameter/color = Color(0, 0, 0, 1)
+
+[sub_resource type="Theme" id="Theme_3jhsl"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_ohiew"]
+font = ExtResource("2_vefpe")
+font_size = 66
+outline_size = 12
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_vefpe"]
+
+[node name="Player" type="CharacterBody3D"]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 0, 0, 0)
+collision_layer = 2
+script = ExtResource("1_uig86")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_40svl")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.82375973, 0, 0, 0, 1, 0, -0.1620453, 0)
+mesh = SubResource("CapsuleMesh_al8ar")
+
+[node name="Head" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.57199705, -0.034348637)
+
+[node name="Flashlight" type="SpotLight3D" parent="Head"]
+transform = Transform3D(0.83333325, 0, 0, 0, 0.83333325, 0, 0, 0, 0.83333325, 0, 0.40710783, -0.36462697)
+visible = false
+light_color = Color(1, 1, 0.5686275, 1)
+light_energy = 3.5
+light_projector = ExtResource("2_3jhsl")
+shadow_enabled = true
+spot_range = 20.0
+
+[node name="Camera3D" type="Camera3D" parent="Head"]
+transform = Transform3D(0.83333325, 0, 0, 0, 0.83333325, 0, 0, 0, 0.83333325, 0, 0.29499996, -0.322)
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Head"]
+transform = Transform3D(0.1, 0, 0, 0, -4.371139e-09, -0.1, 0, 0.1, -4.371139e-09, 0, 0.109915495, -0.42217854)
+visible = false
+mesh = SubResource("CylinderMesh_uig86")
+skeleton = NodePath("../..")
+
+[node name="HEad" type="MeshInstance3D" parent="Head"]
+transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 0, 0.19800001, 0)
+mesh = SubResource("SphereMesh_uig86")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Head"]
+transform = Transform3D(0.094884664, -0.030782491, 0.0070242155, 0.022859557, 0.05162955, -0.08253381, 0.021779392, 0.079917654, 0.056025267, 0.12682629, 0.12015605, -0.27348626)
+mesh = SubResource("CylinderMesh_vefpe")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Head/MeshInstance3D3"]
+transform = Transform3D(0.80007994, 0.58501583, -0.13277319, -0.5849635, 0.80989003, 0.043539256, 0.13300288, 0.042832434, 0.9901898, -2.4078698, 0.7838609, -0.17470741)
+mesh = SubResource("CylinderMesh_vefpe")
+skeleton = NodePath("../../..")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Head"]
+transform = Transform3D(0.142327, -0.0153912455, 0.010536328, 0.03428934, 0.025814775, -0.123800725, 0.03266909, 0.039958816, 0.08403789, 0.17704554, 0.05007738, -0.38110602)
+mesh = SubResource("CylinderMesh_vefpe")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="Head"]
+transform = Transform3D(0.12988874, 0.024763769, 0.010474613, -0.034333747, 0.025826165, -0.123767026, -0.06670914, 0.034925133, 0.084095225, -0.177, 0.050002933, -0.38065135)
+mesh = SubResource("CylinderMesh_vefpe")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="Head"]
+transform = Transform3D(0.1, 0, 0, 0, 0.010770099, -0.09333363, 0, 0.028000087, 0.035900332, 0, 0.08175838, -0.33861312)
+mesh = SubResource("CylinderMesh_3jhsl")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="Head"]
+transform = Transform3D(0.09999998, 0, 0, 0, -1.3113416e-09, -0.09999998, 0, 0.03, -4.3711377e-09, -0.083, 0.26100296, -0.31765136)
+mesh = SubResource("CylinderMesh_imgtv")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Head/MeshInstance3D7"]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.9999999, 0, 0, 8.881784e-16, 1, 1.6666669, -9.536743e-07, 0)
+mesh = SubResource("CylinderMesh_imgtv")
+skeleton = NodePath("../../..")
+
+[node name="InteractionRay" type="RayCast3D" parent="Head"]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.9636304, -0.26723838, 0, 0.26723838, 0.9636304, 0, 0.28, -0.375)
+target_position = Vector3(0, -0.55, -1.855)
+collision_mask = 3
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_gy20a")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="InventoryUI" parent="CanvasLayer" instance=ExtResource("3_84j7k")]
+visible = false
+scale = Vector2(1.0027939, 1)
+
+[node name="StaminaOverlay" type="ColorRect" parent="CanvasLayer"]
+material = SubResource("ShaderMaterial_8kldo")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.078431375, 0.078431375, 0.078431375, 0)
+
+[node name="DeathScreen" type="ColorRect" parent="CanvasLayer"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_3jhsl")
+color = Color(0.88235295, 0, 0, 0.24313726)
+
+[node name="Label" type="Label" parent="CanvasLayer/DeathScreen"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -297.5
+offset_top = -33.0
+offset_right = 297.5
+offset_bottom = 33.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "YOU ARE DEAD"
+label_settings = SubResource("LabelSettings_ohiew")
+
+[node name="SpectatorArm" type="SpringArm3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7864721, 0)
+shape = SubResource("SphereShape3D_vefpe")
+spring_length = 3.0
+
+[node name="FootstepsPlayer" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(0.83333325, 0, 0, 0, 0.83333325, 0, 0, 0, 0.83333325, 0, -0.99999976, 0)
+stream = ExtResource("5_8kldo")
+max_distance = 20.0
+
+[node name="Inventory" type="Node3D" parent="."]
+script = ExtResource("6_b3diy")
