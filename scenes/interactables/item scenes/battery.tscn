@@ -1,10 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://bgj1k8monhyd6"]
+[gd_scene load_steps=10 format=3 uid="uid://bgj1k8monhyd6"]
 
 [ext_resource type="Script" uid="uid://bwurdceifo4yc" path="res://scripts/interactables/pickable_item.gd" id="1_tva6b"]
 [ext_resource type="Resource" uid="uid://d381p366ecpis" path="res://resources/item/Battery.tres" id="2_uykay"]
 [ext_resource type="FontFile" uid="uid://bmya5dxe84pfu" path="res://other/VCR_OSD_MONO_1.001.ttf" id="3_uykay"]
-
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_hkvj6"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_tva6b"]
 size = Vector3(0.2, 0.2, 0.4)
@@ -29,9 +27,6 @@ collision_mask = 3
 script = ExtResource("1_tva6b")
 item_data = ExtResource("2_uykay")
 
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_hkvj6")
-
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.9802322e-08, 2.9802322e-08, -1.4901161e-08)
 shape = SubResource("BoxShape3D_tva6b")
@@ -49,7 +44,7 @@ skeleton = NodePath("../..")
 
 [node name="Label3D" type="Label3D" parent="body"]
 transform = Transform3D(-4.371139e-08, 1, 4.371139e-08, 0, -4.371139e-08, 1, 1, 4.371139e-08, 1.9106855e-15, 0, 0.075, 0)
-text = "9 VOlT"
+text = "9 VOLT"
 font = ExtResource("3_uykay")
 font_size = 15
 outline_size = 7

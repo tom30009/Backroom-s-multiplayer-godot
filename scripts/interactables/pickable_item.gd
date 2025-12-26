@@ -2,6 +2,10 @@ extends Interactable
 
 @export var item_data: ItemData
 
+# Локальный вход (когда нажали E)
+func interact():
+	_server_interact.rpc_id(1)
+
 @rpc("any_peer", "call_local", "reliable")
 func _server_interact():
 	if not multiplayer.is_server(): return
@@ -14,24 +18,17 @@ func _server_interact():
 	if player_node:
 		var inventory = player_node.get_node_or_null("Inventory")
 		if inventory:
-			# ШАГ 1: Пробуем добавить предмет на СЕРВЕРЕ
-			# (Сервер хранит копию инвентаря игрока, поэтому может проверить лимит)
+			# Добавляем в инвентарь (Логика данных)
 			var success = inventory.add_item(item_data)
 			
 			if success:
-				# ШАГ 2: Если влезло -> Синхронизируем с клиентом (чтобы он увидел иконку)
-				# ВАЖНО: Если sender_id == 1 (Хост), у него уже добавилось в шаге 1 (call_local не нужен тут),
-				# но чтобы не усложнять, просто отправим RPC только КЛИЕНТУ, если это не хост.
-				
+				# 1. Если это Клиент - отправляем ему RPC, чтобы обновилась иконка
 				if sender_id != 1:
 					inventory.add_item_rpc.rpc_id(sender_id, item_data.resource_path)
 				
-				# ШАГ 3: Удаляем предмет из мира
-				_destroy_self.rpc()
+				# 2. Удаляем предмет из мира
+				# ВАЖНО: Просто queue_free() на сервере!
+				# MultiplayerSpawner сам скажет всем клиентам удалить этот предмет.
+				queue_free() 
 			else:
-				# Места нет - ничего не делаем, предмет остается лежать
-				print("Сервер: У игрока нет места.")
-
-@rpc("authority", "call_local", "reliable")
-func _destroy_self():
-	queue_free()
+				print("Сервер: Инвентарь полон.")

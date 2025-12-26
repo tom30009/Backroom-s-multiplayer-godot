@@ -1,8 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://cl1jdx68s4exy"]
+[gd_scene load_steps=17 format=3 uid="uid://cl1jdx68s4exy"]
 
 [ext_resource type="Script" uid="uid://wsciqm255f77" path="res://scripts/interactables/door.gd" id="1_ogccd"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_bcmf1"]
+[ext_resource type="AudioStream" uid="uid://cw3uuec7nfseq" path="res://assets/sounds/door/411791__inspectorj__door-wooden-close-a-h1.wav" id="3_n6qbq"]
+[ext_resource type="AudioStream" uid="uid://brxu6cngpbmq2" path="res://assets/sounds/door/321087__benjaminnelan__door-locked.wav" id="4_uqjb3"]
+[ext_resource type="Texture2D" uid="uid://c3w75lcla3t77" path="res://other/rgba-noise-medium.png" id="5_dsnor"]
+[ext_resource type="FontFile" uid="uid://bmya5dxe84pfu" path="res://other/VCR_OSD_MONO_1.001.ttf" id="6_a1sn3"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ocme3"]
 
@@ -14,14 +16,44 @@ properties/1/path = NodePath(".:is_locked")
 properties/1/spawn = true
 properties/1/replication_mode = 1
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ocme3"]
+albedo_color = Color(0.5125608, 0.25458673, 0.13298294, 1)
+metallic = 1.0
+metallic_texture = ExtResource("5_dsnor")
+
+[sub_resource type="BoxMesh" id="BoxMesh_lwe51"]
+material = SubResource("StandardMaterial3D_ocme3")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bcmf1"]
+albedo_color = Color(0.45840502, 0.45840508, 0.45840502, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_t8t15"]
+material = SubResource("StandardMaterial3D_bcmf1")
+radius = 0.25
+height = 0.475
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_n5rwj"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_14dim"]
+material = SubResource("StandardMaterial3D_n5rwj")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_n6qbq"]
+albedo_color = Color(0.15055755, 0.10495395, 0.110318996, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_uqjb3"]
+material = SubResource("StandardMaterial3D_n6qbq")
+
+[sub_resource type="BoxMesh" id="BoxMesh_dsnor"]
+
 [node name="door" type="StaticBody3D"]
-transform = Transform3D(-8.742278e-08, 0, 2, 0, 2, 0, -2, 0, -8.742278e-08, 0, 0, 0)
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 script = ExtResource("1_ogccd")
 speed = 0.8
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 2, 0, 0, 0, 0.1, 0.5, 1, 0)
-mesh = SubResource("BoxMesh_bcmf1")
+required_key_name = "Red key"
+sound_open = ExtResource("3_n6qbq")
+sound_close = ExtResource("3_n6qbq")
+sound_locked = ExtResource("4_uqjb3")
+is_locked = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 2, 0, 0, 0, 0.1, 0.5, 1, 0)
@@ -31,3 +63,49 @@ shape = SubResource("BoxShape3D_ocme3")
 replication_config = SubResource("SceneReplicationConfig_ocme3")
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 2, 0, 0, 0, 0.1, 0.5, 1, 0)
+mesh = SubResource("BoxMesh_lwe51")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0.85, 0.9, 0.1)
+mesh = SubResource("SphereMesh_t8t15")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0.85, 0.9, -0.1)
+mesh = SubResource("SphereMesh_t8t15")
+
+[node name="Label3D" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1.55, 0.06)
+shaded = true
+alpha_cut = 1
+text = "EMLOYEES
+ ONLY"
+font = ExtResource("6_a1sn3")
+outline_size = 8
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.21, 0, 0, 0, 0.286, 0, 0, 0, 0.122, 0.65, 0.90000004, 0)
+mesh = SubResource("BoxMesh_14dim")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.21, 0, 0, 0, 0.093092434, 0.06644596, 0, -0.060454935, 0.10231781, 0.65, 0.8, 0.05)
+mesh = SubResource("BoxMesh_14dim")
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.16, 0, 0, 0, 0.131, 0, 0, 0, 0.132, 0.65, 0.95, 0)
+mesh = SubResource("BoxMesh_uqjb3")
+
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.16, 0, 0, 0, 0.017612081, 0.014705255, 0, -0.01143742, 0.022644106, 0.65, 0.825, 0.1)
+mesh = SubResource("BoxMesh_dsnor")
+
+[node name="Label3D2" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.65, 0.95, 0.067)
+shaded = true
+alpha_cut = 1
+text = "Insert ID"
+font = ExtResource("6_a1sn3")
+font_size = 5
+outline_size = 8

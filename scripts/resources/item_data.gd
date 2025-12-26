@@ -1,7 +1,8 @@
 class_name ItemData
 extends Resource
 
-enum Type { CONSUMABLE, KEY, BATTERY, NOTE }
+# Оставляем только базовые типы
+enum Type { CONSUMABLE, KEY, BATTERY }
 
 @export var name: String = "Item Name"
 @export_multiline var description: String = "Description here"

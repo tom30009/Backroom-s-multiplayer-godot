@@ -1,0 +1,45 @@
+[gd_scene load_steps=6 format=3 uid="uid://cdeq5p0n7u14g"]
+
+[ext_resource type="Script" uid="uid://cpgxha2gvyj76" path="res://scripts/managers/AdvancedHorrorLight .gd" id="1_chb7a"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_56g5x"]
+albedo_color = Color(1, 0, 0, 1)
+emission_enabled = true
+emission = Color(0.5486098, 0, 0, 1)
+
+[sub_resource type="TextMesh" id="TextMesh_chb7a"]
+material = SubResource("StandardMaterial3D_56g5x")
+text = "EXIT"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lo3xx"]
+albedo_color = Color(0.41215247, 0.41215247, 0.41215247, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_pkame"]
+material = SubResource("StandardMaterial3D_lo3xx")
+
+[node name="StaticBody3D" type="StaticBody3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.005, 0)
+mesh = SubResource("TextMesh_chb7a")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.04, 0, 0, 0, 0.19, 0, 0, 0, 0.1, 0.215, 0, -0.04)
+mesh = SubResource("BoxMesh_pkame")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.04, 0, 0, 0, 0.19, 0, 0, 0, 0.1, -0.215, 0, -0.04)
+mesh = SubResource("BoxMesh_pkame")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1.7484555e-09, -0.47, 0, 0.04, -2.0544352e-08, 0, 0, 0, 0.1, 0, 0.1, -0.04)
+mesh = SubResource("BoxMesh_pkame")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1.7484555e-09, -0.475, 0, 0.04, -2.076291e-08, 0, 0, 0, 0.1, 0, -0.1, -0.04)
+mesh = SubResource("BoxMesh_pkame")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.055)
+light_color = Color(1, 0, 0, 1)
+script = ExtResource("1_chb7a")

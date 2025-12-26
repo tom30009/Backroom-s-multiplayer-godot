@@ -1,0 +1,163 @@
+[gd_scene load_steps=24 format=3 uid="uid://kisoyqsu0avt"]
+
+[ext_resource type="Texture2D" uid="uid://csdrblcm2mjqw" path="res://assets/texture/rusty_metal_05_diff_1k.jpg" id="1_81kso"]
+[ext_resource type="Texture2D" uid="uid://c1ea0543t8y0y" path="res://assets/texture/Pack/carpet/carpet_color.png" id="2_b5a3m"]
+[ext_resource type="Texture2D" uid="uid://c3w75lcla3t77" path="res://other/rgba-noise-medium.png" id="3_enxa1"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_40svl"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uovlx"]
+albedo_color = Color(0.40392157, 0.4, 0, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_al8ar"]
+material = SubResource("StandardMaterial3D_uovlx")
+
+[sub_resource type="Gradient" id="Gradient_m3b33"]
+offsets = PackedFloat32Array(0.28235295, 0.5294118, 0.72156864, 0.85882354, 0.92941177)
+colors = PackedColorArray(1, 1, 1, 1, 0.40705642, 0.4070561, 0.40705615, 1, 0.3465695, 0.34656927, 0.34656942, 1, 0.6842768, 0.68427664, 0.6842767, 1, 0.00069389754, 0.00069389766, 0.0006938976, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_3ys8e"]
+gradient = SubResource("Gradient_m3b33")
+fill = 1
+fill_from = Vector2(0.4957265, 0.54415953)
+fill_to = Vector2(0.962963, 0.10541311)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_uig86"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aiddh"]
+albedo_color = Color(0.40199232, 0.39899144, 0, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_uig86"]
+material = SubResource("StandardMaterial3D_aiddh")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7ns1o"]
+albedo_texture = ExtResource("1_81kso")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_a12us"]
+material = SubResource("StandardMaterial3D_7ns1o")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5wq2b"]
+emission_enabled = true
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 8.4
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_k07tx"]
+material = SubResource("StandardMaterial3D_5wq2b")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cen38"]
+albedo_color = Color(0.16809729, 0.082229994, 0.06299454, 1)
+albedo_texture = ExtResource("2_b5a3m")
+metallic = 1.0
+metallic_texture = ExtResource("3_enxa1")
+
+[sub_resource type="SphereMesh" id="SphereMesh_yporg"]
+material = SubResource("StandardMaterial3D_cen38")
+radius = 0.35
+height = 0.3
+radial_segments = 10
+rings = 10
+is_hemisphere = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2pjvx"]
+albedo_color = Color(0.20707613, 0.19853988, 0.19026044, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_vefpe"]
+material = SubResource("StandardMaterial3D_2pjvx")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sxfpp"]
+albedo_color = Color(0.34117648, 0.33333334, 0.34117648, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_3jhsl"]
+material = SubResource("StandardMaterial3D_sxfpp")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yugvt"]
+albedo_color = Color(0, 0.21176471, 0.32941177, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_imgtv"]
+material = SubResource("StandardMaterial3D_yugvt")
+
+[node name="Player" type="CharacterBody3D"]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 0, 0, 0)
+collision_layer = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_40svl")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.99999976, 0, 0, 0, 0.82375973, 0, 0, 0, 0.99999976, 4.9670525e-08, -0.16204533, 0)
+mesh = SubResource("CapsuleMesh_al8ar")
+
+[node name="Head" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.9986295, -0.05233596, 0, 0.05233596, 0.9986295, 0, 0.57199705, -0.034348637)
+
+[node name="Flashlight" type="SpotLight3D" parent="Head"]
+transform = Transform3D(0.83333325, 0, 0, 0, 0.83333325, 0, 0, 0, 0.83333325, 0, 0.432, -0.393)
+light_color = Color(0.8784314, 0.9411765, 1, 1)
+light_energy = 8.33
+light_projector = SubResource("GradientTexture2D_3ys8e")
+shadow_enabled = true
+shadow_opacity = 0.8
+shadow_blur = 2.0
+spot_range = 44.09
+spot_angle = 40.1
+spot_angle_attenuation = 2.0705302
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Head"]
+transform = Transform3D(0.1, 0, 0, 0, -4.371139e-09, -0.1, 0, 0.1, -4.371139e-09, 0, 0.109915495, -0.42217854)
+visible = false
+mesh = SubResource("CylinderMesh_uig86")
+skeleton = NodePath("../..")
+
+[node name="HEad" type="MeshInstance3D" parent="Head"]
+transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 0, 0.19800001, 0)
+mesh = SubResource("SphereMesh_uig86")
+
+[node name="MeshInstance3D8" type="MeshInstance3D" parent="Head"]
+transform = Transform3D(0.09999998, 0, 0, 0, -4.3711377e-09, 0.09999998, 0, -0.09999998, -4.3711377e-09, 0, 0.42800295, -0.25365135)
+mesh = SubResource("CylinderMesh_a12us")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D9" type="MeshInstance3D" parent="Head"]
+transform = Transform3D(0.04999999, 0, 0, 0, -2.1855688e-09, -0.04999999, 0, 0.04999999, -2.1855688e-09, 0, 0.433003, -0.30765137)
+mesh = SubResource("CylinderMesh_k07tx")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D10" type="MeshInstance3D" parent="Head"]
+transform = Transform3D(0.99999976, 0, 0, 0, 0.99999976, 0, 0, 0, 0.99999976, 0, 0.30100298, -0.0056513585)
+mesh = SubResource("SphereMesh_yporg")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Head"]
+transform = Transform3D(0.094884664, -0.030782491, 0.0070242155, 0.022859557, 0.05162955, -0.08253381, 0.021779392, 0.079917654, 0.056025267, 0.12682629, 0.12015605, -0.27348626)
+mesh = SubResource("CylinderMesh_vefpe")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Head/MeshInstance3D3"]
+transform = Transform3D(0.80007994, 0.58501583, -0.13277319, -0.5849635, 0.80989003, 0.043539256, 0.13300288, 0.042832434, 0.9901898, -2.4078698, 0.7838609, -0.17470741)
+mesh = SubResource("CylinderMesh_vefpe")
+skeleton = NodePath("../../..")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Head"]
+transform = Transform3D(0.142327, -0.0153912455, 0.010536328, 0.03428934, 0.025814775, -0.123800725, 0.03266909, 0.039958816, 0.08403789, 0.17704554, 0.05007738, -0.38110602)
+mesh = SubResource("CylinderMesh_vefpe")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="Head"]
+transform = Transform3D(0.12988874, 0.024763769, 0.010474613, -0.034333747, 0.025826165, -0.123767026, -0.06670914, 0.034925133, 0.084095225, -0.177, 0.050002933, -0.38065135)
+mesh = SubResource("CylinderMesh_vefpe")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="Head"]
+transform = Transform3D(0.1, 0, 0, 0, 0.010770099, -0.09333363, 0, 0.028000087, 0.035900332, 0, 0.08175838, -0.33861312)
+mesh = SubResource("CylinderMesh_3jhsl")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="Head"]
+transform = Transform3D(0.09999998, 0, 0, 0, -1.3113416e-09, -0.09999998, 0, 0.03, -4.3711377e-09, -0.083, 0.26100296, -0.31765136)
+mesh = SubResource("CylinderMesh_imgtv")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Head/MeshInstance3D7"]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.9999999, 0, 0, 8.881784e-16, 1, 1.6666669, -9.536743e-07, 0)
+mesh = SubResource("CylinderMesh_imgtv")
+skeleton = NodePath("../../..")

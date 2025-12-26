@@ -1,0 +1,73 @@
+[gd_scene load_steps=5 format=3 uid="uid://bvnel5v6mw5yv"]
+
+[ext_resource type="Script" uid="uid://dwgiib5bpynuq" path="res://note_reader.gd" id="1_rsk8p"]
+[ext_resource type="Texture2D" uid="uid://dt4p35y2thyfq" path="res://assets/texture/старая-бумага_97-1921322894(1).jpg" id="2_06b1y"]
+[ext_resource type="FontFile" uid="uid://d1bi00cukbxbx" path="res://other/better-vcr.ttf" id="3_f4c1u"]
+[ext_resource type="Texture2D" uid="uid://clggwr20b31wh" path="res://assets/texture/icon/cancel.svg" id="4_caold"]
+
+[node name="NoteReader" type="Control" node_paths=PackedStringArray("close_button", "content_label")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_rsk8p")
+close_button = NodePath("TextureRect/Button")
+content_label = NodePath("TextureRect/ContentLabel")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.015686275, 0.015686275, 0.015686275, 0.5882353)
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.5
+offset_top = -285.5
+offset_right = 200.5
+offset_bottom = 285.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_06b1y")
+
+[node name="ContentLabel" type="Label" parent="TextureRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -173.0
+offset_top = -241.0
+offset_right = 178.0
+offset_bottom = 265.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_f4c1u")
+autowrap_mode = 1
+clip_text = true
+
+[node name="Button" type="Button" parent="TextureRect"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -44.5
+offset_top = 0.5
+offset_right = 475.5
+offset_bottom = 520.5
+grow_horizontal = 0
+scale = Vector2(0.085, 0.085)
+icon = ExtResource("4_caold")
+flat = true

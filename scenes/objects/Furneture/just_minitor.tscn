@@ -1,0 +1,52 @@
+[gd_scene load_steps=8 format=3 uid="uid://b1gsqshr2u2gl"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_i4jh4"]
+albedo_color = Color(0.75686276, 0.78039217, 0.6117647, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_bxghu"]
+material = SubResource("StandardMaterial3D_i4jh4")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fthug"]
+albedo_color = Color(0.75686276, 0.78039217, 0.6117647, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_bx82w"]
+material = SubResource("StandardMaterial3D_fthug")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mg86h"]
+albedo_color = Color(0.33411068, 0.2839223, 0.32938534, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_cbgg7"]
+material = SubResource("StandardMaterial3D_mg86h")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_qdsue"]
+
+[node name="StaticBody3D" type="StaticBody3D"]
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.90999997, 0, 0, 0, 0.09, 0, 0, 0, 0.245, 0, 0.3, 0.2)
+mesh = SubResource("BoxMesh_bxghu")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.01465963, -0.09030039, 0, 0.8398508, 0.001576197, 0, 0, 0, 0.245, -0.485, 0.676, 0.2)
+mesh = SubResource("BoxMesh_bxghu")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.01465963, -0.09030039, 0, 0.8398508, 0.001576197, 0, 0, 0, 0.245, 0.505, 0.674, 0.2)
+mesh = SubResource("BoxMesh_bxghu")
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.075, 0, 0, 0, 0.09, 0, 0, 0, 0.245, 0.015, 1.07, 0.2)
+mesh = SubResource("BoxMesh_bxghu")
+
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.945, 0, 0, 0, 0.729, 0, 0, 0, 0.7, 0, 0.70000005, -0.2)
+mesh = SubResource("BoxMesh_bx82w")
+
+[node name="MeshInstance3D8" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.96, 0, 0, 0, 0.785, 0, 0, 0, 0.115, 0, 0.7, 0.16)
+mesh = SubResource("BoxMesh_cbgg7")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+visible = false
+shape = SubResource("BoxShape3D_qdsue")

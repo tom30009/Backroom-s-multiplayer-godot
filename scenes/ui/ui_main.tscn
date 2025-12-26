@@ -1,0 +1,122 @@
+[gd_scene load_steps=6 format=3 uid="uid://bgv7ct5y62ipg"]
+
+[ext_resource type="FontFile" uid="uid://d1bi00cukbxbx" path="res://other/better-vcr.ttf" id="1_1pib8"]
+[ext_resource type="Shader" uid="uid://j513knva4ayu" path="res://scenes/other/shaders/CRT.gdshader" id="1_3ohfi"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_t4qpa"]
+shader = ExtResource("1_3ohfi")
+shader_parameter/overlay = false
+shader_parameter/scanlines_opacity = 0.4
+shader_parameter/scanlines_width = 0.25
+shader_parameter/grille_opacity = 0.3
+shader_parameter/resolution = Vector2(640, 480)
+shader_parameter/pixelate = true
+shader_parameter/roll = true
+shader_parameter/roll_speed = 8.0
+shader_parameter/roll_size = 15.0
+shader_parameter/roll_variation = 1.8
+shader_parameter/distort_intensity = 0.05
+shader_parameter/noise_opacity = 0.4
+shader_parameter/noise_speed = 5.0
+shader_parameter/static_noise_intensity = 0.06
+shader_parameter/aberration = 0.03
+shader_parameter/brightness = 1.4
+shader_parameter/discolor = true
+shader_parameter/warp_amount = 1.0
+shader_parameter/clip_warp = false
+shader_parameter/vignette_intensity = 0.4
+shader_parameter/vignette_opacity = 0.5
+
+[sub_resource type="LabelSettings" id="LabelSettings_3ohfi"]
+font = ExtResource("1_1pib8")
+font_size = 34
+
+[sub_resource type="Theme" id="Theme_1pib8"]
+
+[node name="UI_Main" type="Control"]
+custom_minimum_size = Vector2(800, 600)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_t4qpa")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.78431374)
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 134.0
+offset_top = 112.0
+offset_right = 619.0
+offset_bottom = 146.0
+text = "BACKROOM's Together"
+label_settings = SubResource("LabelSettings_3ohfi")
+
+[node name="StartMenu" type="VBoxContainer" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 124.700005
+offset_top = 254.00003
+offset_right = 276.7
+offset_bottom = 380.00003
+theme = SubResource("Theme_1pib8")
+theme_override_constants/separation = 10
+metadata/_edit_use_anchors_ = true
+
+[node name="Btn_Single" type="Button" parent="StartMenu"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_1pib8")
+text = "Singleplayer"
+
+[node name="Btn_Multi" type="Button" parent="StartMenu"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_1pib8")
+text = "Multiplayer"
+
+[node name="Btn_Settings" type="Button" parent="StartMenu"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_1pib8")
+text = "Settings
+"
+
+[node name="Btn_Quit" type="Button" parent="StartMenu"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_1pib8")
+text = "QUIT"
+
+[node name="MultiSelect" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 349.0
+offset_top = 235.0
+offset_right = 446.0
+offset_bottom = 422.0
+theme_override_constants/separation = 10
+
+[node name="Btn_Host" type="Button" parent="MultiSelect"]
+layout_mode = 2
+text = "Host server"
+
+[node name="Label" type="Label" parent="MultiSelect"]
+layout_mode = 2
+text = "Enter the IP"
+
+[node name="AddressInput" type="LineEdit" parent="MultiSelect"]
+layout_mode = 2
+placeholder_text = "127.0.0.1"
+
+[node name="Btn_Join" type="Button" parent="MultiSelect"]
+layout_mode = 2
+text = "Join"
+
+[node name="Btn_Back" type="Button" parent="MultiSelect"]
+layout_mode = 2
+text = "Back"

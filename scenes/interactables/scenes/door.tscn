@@ -1,15 +1,17 @@
-[gd_scene load_steps=9 format=3 uid="uid://dr7wij0udn7tr"]
+[gd_scene load_steps=11 format=3 uid="uid://dr7wij0udn7tr"]
 
 [ext_resource type="Script" uid="uid://wsciqm255f77" path="res://scripts/interactables/door.gd" id="1_ocme3"]
 [ext_resource type="Texture2D" uid="uid://c3w75lcla3t77" path="res://other/rgba-noise-medium.png" id="2_bcmf1"]
+[ext_resource type="AudioStream" uid="uid://cw3uuec7nfseq" path="res://assets/sounds/door/411791__inspectorj__door-wooden-close-a-h1.wav" id="3_2s5p0"]
+[ext_resource type="AudioStream" uid="uid://brxu6cngpbmq2" path="res://assets/sounds/door/321087__benjaminnelan__door-locked.wav" id="4_ems7s"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ocme3"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mxki3"]
 albedo_color = Color(0.5125608, 0.25458673, 0.13298294, 1)
 metallic = 1.0
 metallic_texture = ExtResource("2_bcmf1")
 
 [sub_resource type="BoxMesh" id="BoxMesh_bcmf1"]
-material = SubResource("StandardMaterial3D_ocme3")
+material = SubResource("StandardMaterial3D_mxki3")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ocme3"]
 
@@ -21,11 +23,11 @@ properties/1/path = NodePath(".:is_locked")
 properties/1/spawn = true
 properties/1/replication_mode = 1
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bcmf1"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_av2ug"]
 albedo_color = Color(0.45840502, 0.45840508, 0.45840502, 1)
 
 [sub_resource type="SphereMesh" id="SphereMesh_ocme3"]
-material = SubResource("StandardMaterial3D_bcmf1")
+material = SubResource("StandardMaterial3D_av2ug")
 radius = 0.25
 height = 0.475
 
@@ -33,6 +35,9 @@ height = 0.475
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 script = ExtResource("1_ocme3")
 speed = 0.8
+sound_open = ExtResource("3_2s5p0")
+sound_close = ExtResource("3_2s5p0")
+sound_locked = ExtResource("4_ems7s")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 2, 0, 0, 0, 0.1, 0.5, 1, 0)

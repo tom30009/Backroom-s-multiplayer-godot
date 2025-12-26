@@ -1,4 +1,4 @@
-extends CanvasLayer
+extends Control
 
 # Ссылки на узлы (убедитесь, что имена совпадают в дереве сцены)
 @onready var date_label: Label = $DateLabel

@@ -1,0 +1,91 @@
+[gd_scene load_steps=3 format=3 uid="uid://cpr1su36vjmwj"]
+
+[ext_resource type="Shader" uid="uid://j513knva4ayu" path="res://scenes/other/shaders/CRT.gdshader" id="1_3k788"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_b2b5h"]
+shader = ExtResource("1_3k788")
+shader_parameter/overlay = false
+shader_parameter/scanlines_opacity = 0.4
+shader_parameter/scanlines_width = 0.25
+shader_parameter/grille_opacity = 0.3
+shader_parameter/resolution = Vector2(640, 480)
+shader_parameter/pixelate = true
+shader_parameter/roll = true
+shader_parameter/roll_speed = 8.0
+shader_parameter/roll_size = 15.0
+shader_parameter/roll_variation = 1.8
+shader_parameter/distort_intensity = 0.05
+shader_parameter/noise_opacity = 0.4
+shader_parameter/noise_speed = 5.0
+shader_parameter/static_noise_intensity = 0.06
+shader_parameter/aberration = 0.03
+shader_parameter/brightness = 1.4
+shader_parameter/discolor = true
+shader_parameter/warp_amount = 1.0
+shader_parameter/clip_warp = false
+shader_parameter/vignette_intensity = 0.4
+shader_parameter/vignette_opacity = 0.5
+
+[node name="UI_Settings" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_b2b5h")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.78431374)
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 1037.0
+offset_right = 1152.0
+offset_bottom = 31.0
+text = "Back to menu
+"
+
+[node name="TabContainer" type="TabContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.86
+offset_top = 27.48
+offset_right = 1.8599854
+offset_bottom = 27.47998
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1, 0.95)
+current_tab = 0
+
+[node name="Video" type="VBoxContainer" parent="TabContainer"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="CheckButton" type="CheckButton" parent="TabContainer/Video"]
+layout_mode = 2
+text = "Fullscreen"
+
+[node name="CheckButton2" type="CheckButton" parent="TabContainer/Video"]
+layout_mode = 2
+text = "show fps"
+
+[node name="Audio" type="VBoxContainer" parent="TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="Label" type="Label" parent="TabContainer/Audio"]
+layout_mode = 2
+text = "Volume"
+
+[node name="HSlider" type="HSlider" parent="TabContainer/Audio"]
+layout_mode = 2

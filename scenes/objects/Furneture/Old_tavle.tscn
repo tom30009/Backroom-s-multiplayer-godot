@@ -1,0 +1,45 @@
+[gd_scene load_steps=7 format=3 uid="uid://cu7r8232be1v0"]
+
+[ext_resource type="Texture2D" uid="uid://c36jrpynr6477" path="res://assets/texture/furn/table/textures/wood_table_diff_1k.jpg" id="1_aafli"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ypb6f"]
+albedo_texture = ExtResource("1_aafli")
+
+[sub_resource type="BoxMesh" id="BoxMesh_sivfs"]
+material = SubResource("StandardMaterial3D_ypb6f")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_osf6y"]
+albedo_color = Color(0.4869367, 0.23630229, 0.121461906, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_c0i6k"]
+material = SubResource("StandardMaterial3D_osf6y")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_bcowp"]
+size = Vector3(2.0910645, 1, 1)
+
+[node name="StaticBody3D" type="StaticBody3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(2, 0, 0, 0, 0.1, 0, 0, 0, 1, 0, 0.435, 0)
+mesh = SubResource("BoxMesh_sivfs")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.2, 0, 0, 0, 1, 0, 0, 0, 0.2, 0.8, -0.1, 0.3)
+mesh = SubResource("BoxMesh_c0i6k")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.2, 0, 0, 0, 1, 0, 0, 0, 0.2, 0.8, -0.1, -0.3)
+mesh = SubResource("BoxMesh_c0i6k")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.2, 0, 0, 0, 1, 0, 0, 0, 0.2, -0.8, -0.1, 0.3)
+mesh = SubResource("BoxMesh_c0i6k")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.2, 0, 0, 0, 1, 0, 0, 0, 0.2, -0.8, -0.1, -0.3)
+mesh = SubResource("BoxMesh_c0i6k")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.01965332, 0, 0)
+visible = false
+shape = SubResource("BoxShape3D_bcowp")
