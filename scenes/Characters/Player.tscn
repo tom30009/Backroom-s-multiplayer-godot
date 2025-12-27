@@ -12,7 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://c3w75lcla3t77" path="res://other/rgba-noise-medium.png" id="7_imgtv"]
 [ext_resource type="FontFile" uid="uid://bmya5dxe84pfu" path="res://other/VCR_OSD_MONO_1.001.ttf" id="8_imgtv"]
 [ext_resource type="Texture2D" uid="uid://c1ea0543t8y0y" path="res://assets/texture/Pack/carpet/carpet_color.png" id="11_3ys8e"]
-[ext_resource type="PackedScene" uid="uid://bvnel5v6mw5yv" path="res://scenes/ui/note_reader.tscn" id="12_3ys8e"]
+[ext_resource type="PackedScene" uid="uid://biiygas868jo6" path="res://scenes/ui/PauseMenu.tscn" id="14_wo77t"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_40svl"]
 
@@ -275,6 +275,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 2
 
 [node name="StaminaOverlay" type="ColorRect" parent="CanvasLayer"]
 material = SubResource("ShaderMaterial_8kldo")
@@ -283,7 +284,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 2
+mouse_filter = 1
 color = Color(0.078431375, 0.078431375, 0.078431375, 0)
 
 [node name="DeathScreen" type="ColorRect" parent="CanvasLayer"]
@@ -293,6 +294,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 theme = SubResource("Theme_3jhsl")
 color = Color(0.88235295, 0, 0, 0.24313726)
 
@@ -311,6 +313,28 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "YOU ARE DEAD"
 label_settings = SubResource("LabelSettings_ohiew")
+
+[node name="SpectatorHUD" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="InfoLabel" type="Label" parent="CanvasLayer/SpectatorHUD"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -173.0
+offset_right = 173.0
+offset_bottom = 62.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("8_imgtv")
+theme_override_font_sizes/font_size = 31
+text = "spectate: player 2"
 
 [node name="Control" type="Control" parent="CanvasLayer"]
 layout_mode = 3
@@ -353,9 +377,6 @@ theme_override_constants/outline_size = 0
 theme_override_constants/shadow_outline_size = 1
 theme_override_fonts/font = ExtResource("8_imgtv")
 
-[node name="NoteReader" parent="CanvasLayer" instance=ExtResource("12_3ys8e")]
-visible = false
-
 [node name="InventoryUI" parent="CanvasLayer" instance=ExtResource("3_84j7k")]
 visible = false
 scale = Vector2(1.0027939, 1)
@@ -368,3 +389,9 @@ preprocess = 2.0
 visibility_aabb = AABB(-10, -10, -10, 20, 20, 20)
 process_material = SubResource("ParticleProcessMaterial_k07tx")
 draw_pass_1 = SubResource("QuadMesh_wo77t")
+
+[node name="PauseMenu" type="CanvasLayer" parent="."]
+layer = 10
+
+[node name="PauseMenu" parent="PauseMenu" instance=ExtResource("14_wo77t")]
+visible = false

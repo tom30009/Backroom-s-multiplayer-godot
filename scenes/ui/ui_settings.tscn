@@ -70,13 +70,29 @@ current_tab = 0
 layout_mode = 2
 metadata/_tab_index = 0
 
-[node name="CheckButton" type="CheckButton" parent="TabContainer/Video"]
+[node name="Check_Fullscreen" type="CheckButton" parent="TabContainer/Video"]
 layout_mode = 2
 text = "Fullscreen"
 
-[node name="CheckButton2" type="CheckButton" parent="TabContainer/Video"]
+[node name="Check_VSync" type="CheckButton" parent="TabContainer/Video"]
 layout_mode = 2
-text = "show fps"
+text = "VSync
+"
+
+[node name="Check_LowQuality" type="CheckButton" parent="TabContainer/Video"]
+layout_mode = 2
+text = "LowQuality"
+
+[node name="Label" type="Label" parent="TabContainer/Video"]
+layout_mode = 2
+text = "Render resolution"
+
+[node name="Slider_Res" type="HSlider" parent="TabContainer/Video"]
+layout_mode = 2
+min_value = 0.5
+max_value = 1.0
+step = 0.1
+value = 1.0
 
 [node name="Audio" type="VBoxContainer" parent="TabContainer"]
 visible = false
@@ -89,3 +105,6 @@ text = "Volume"
 
 [node name="HSlider" type="HSlider" parent="TabContainer/Audio"]
 layout_mode = 2
+max_value = 1.0
+step = 0.05
+value = 1.0

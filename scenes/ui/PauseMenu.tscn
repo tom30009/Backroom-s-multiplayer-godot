@@ -1,0 +1,85 @@
+[gd_scene load_steps=6 format=3 uid="uid://biiygas868jo6"]
+
+[ext_resource type="Shader" uid="uid://j513knva4ayu" path="res://scenes/other/shaders/CRT.gdshader" id="1_7ida2"]
+[ext_resource type="Script" uid="uid://bg810l3suwddt" path="res://scripts/ui/pause_menu.gd" id="1_n5dsq"]
+[ext_resource type="FontFile" uid="uid://d1bi00cukbxbx" path="res://other/better-vcr.ttf" id="2_n5dsq"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5twic"]
+shader = ExtResource("1_7ida2")
+shader_parameter/overlay = false
+shader_parameter/scanlines_opacity = 0.4
+shader_parameter/scanlines_width = 0.25
+shader_parameter/grille_opacity = 0.3
+shader_parameter/resolution = Vector2(640, 480)
+shader_parameter/pixelate = true
+shader_parameter/roll = true
+shader_parameter/roll_speed = 8.0
+shader_parameter/roll_size = 15.0
+shader_parameter/roll_variation = 1.8
+shader_parameter/distort_intensity = 0.05
+shader_parameter/noise_opacity = 0.4
+shader_parameter/noise_speed = 5.0
+shader_parameter/static_noise_intensity = 0.06
+shader_parameter/aberration = 0.03
+shader_parameter/brightness = 1.4
+shader_parameter/discolor = true
+shader_parameter/warp_amount = 1.0
+shader_parameter/clip_warp = false
+shader_parameter/vignette_intensity = 0.4
+shader_parameter/vignette_opacity = 0.5
+
+[sub_resource type="Theme" id="Theme_v5pi0"]
+default_font = ExtResource("2_n5dsq")
+
+[node name="PauseMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_n5dsq")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_5twic")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+theme = SubResource("Theme_v5pi0")
+theme_override_constants/separation = 6
+
+[node name="Btn_Resume" type="Button" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Resume"
+
+[node name="Btn_Restart" type="Button" parent="CenterContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+text = "Restart"
+
+[node name="Btn_Settings" type="Button" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Settings(WIP)"
+
+[node name="Btn_Quit" type="Button" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Back to menu"
+
+[connection signal="pressed" from="CenterContainer/VBoxContainer/Btn_Resume" to="." method="_on_btn_resume_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/Btn_Restart" to="." method="_on_btn_restart_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/Btn_Settings" to="." method="_on_btn_settings_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/Btn_Quit" to="." method="_on_btn_quit_pressed"]

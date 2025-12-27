@@ -1,7 +1,7 @@
 extends Area3D
 
 # Путь к сцене лобби (чтобы вернуться)
-const LOBBY_SCENE = "res://scenes/ui/Lobby.tscn" # Проверь путь!
+const LOBBY_SCENE = "res://scenes/ui/main_menu.tscn" # Проверь путь!
 
 
 

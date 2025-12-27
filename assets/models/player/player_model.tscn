@@ -81,6 +81,7 @@ transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 0, 0, 0)
 collision_layer = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+visible = false
 shape = SubResource("CapsuleShape3D_40svl")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
@@ -92,6 +93,7 @@ transform = Transform3D(1, 0, 0, 0, 0.9986295, -0.05233596, 0, 0.05233596, 0.998
 
 [node name="Flashlight" type="SpotLight3D" parent="Head"]
 transform = Transform3D(0.83333325, 0, 0, 0, 0.83333325, 0, 0, 0, 0.83333325, 0, 0.432, -0.393)
+visible = false
 light_color = Color(0.8784314, 0.9411765, 1, 1)
 light_energy = 8.33
 light_projector = SubResource("GradientTexture2D_3ys8e")

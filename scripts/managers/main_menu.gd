@@ -2,29 +2,31 @@ extends Node3D
 
 const PORT = 7000
 const DEFAULT_SERVER_IP = "127.0.0.1"
-const LEVEL_SCENE_PATH = "res://scenes/levels/level.tscn"
+const LEVEL_SCENE_PATH = "res://scenes/levels/level.tscn" # ПРОВЕРЬ ПУТЬ!
 
 # --- 3D КАМЕРА И МАРКЕРЫ ---
 @onready var camera = $CameraRig/Camera3D
-@onready var pos_intro = $CameraRig/CamPos_Intro       # <--- НОВОЕ
+@onready var pos_intro = $CameraRig/CamPos_Intro
 @onready var pos_main = $CameraRig/CamPos_Main
 @onready var pos_settings = $CameraRig/CamPos_Settings
 @onready var pos_lobby = $CameraRig/CamPos_Lobby
 
 # --- ГЛАВНЫЕ КОНТЕЙНЕРЫ ИНТЕРФЕЙСА ---
-@onready var ui_intro = $CanvasLayer/UI_Intro           # <--- НОВОЕ
+@onready var ui_intro = $CanvasLayer/UI_Intro
 @onready var ui_main = $CanvasLayer/UI_Main
 @onready var ui_settings = $CanvasLayer/UI_Settings
 @onready var ui_lobby = $CanvasLayer/UI_Lobby
 
-# --- ЭЛЕМЕНТЫ МЕНЮ ---
-@onready var btn_intro_start = $CanvasLayer/UI_Intro/Btn_IntroStart # <--- НОВОЕ
-
-# (Остальные пути как были)
+# --- ВНУТРЕННИЕ МЕНЮ (ГЛАВНЫЙ ЭКРАН) ---
 @onready var start_menu = $CanvasLayer/UI_Main/StartMenu
 @onready var multi_menu = $CanvasLayer/UI_Main/MultiSelect
+
+# --- ЭЛЕМЕНТЫ МЕНЮ ---
 @onready var ip_input = $CanvasLayer/UI_Main/MultiSelect/AddressInput
 @onready var player_list = $CanvasLayer/UI_Lobby/VBoxContainer/PlayerList
+
+# --- КНОПКИ (ГЛАВНЫЙ ЭКРАН) ---
+@onready var btn_intro_start = $CanvasLayer/UI_Intro/Btn_IntroStart
 
 @onready var btn_single = start_menu.get_node("Btn_Single")
 @onready var btn_multi = start_menu.get_node("Btn_Multi")
@@ -35,35 +37,60 @@ const LEVEL_SCENE_PATH = "res://scenes/levels/level.tscn"
 @onready var btn_join = multi_menu.get_node("Btn_Join")
 @onready var btn_back_multi = multi_menu.get_node("Btn_Back")
 
-# Проверь имя кнопки (Button или Btn_BackSettings) в своей сцене!
-@onready var btn_back_settings = $CanvasLayer/UI_Settings/Button 
+# --- КНОПКИ (ДРУГИЕ ЭКРАНЫ) ---
+@onready var btn_back_settings = $CanvasLayer/UI_Settings/Button # Или Btn_BackSettings
 @onready var btn_start_game = $CanvasLayer/UI_Lobby/VBoxContainer/Btn_Start
 @onready var btn_leave_lobby = $CanvasLayer/UI_Lobby/VBoxContainer/Btn_Leave
 
+# --- ЭЛЕМЕНТЫ НАСТРОЕК (НОВОЕ) ---
+# Убедись, что пути совпадают с твоей сценой!
+@onready var check_full = $CanvasLayer/UI_Settings/TabContainer/Video/Check_Fullscreen
+@onready var check_vsync = $CanvasLayer/UI_Settings/TabContainer/Video/Check_VSync
+@onready var check_low = $CanvasLayer/UI_Settings/TabContainer/Video/Check_LowQuality
+@onready var slider_res = $CanvasLayer/UI_Settings/TabContainer/Video/Slider_Res
+@onready var slider_audio = $CanvasLayer/UI_Settings/TabContainer/Audio/HSlider
 
 func _ready():
-	# Настройка при старте: СТАВИМ КАМЕРУ НА ИНТРО
+	# 1. Настройка при старте (Интро)
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-	camera.global_transform = pos_intro.global_transform # <--- Стартуем с общего плана
+	camera.global_transform = pos_intro.global_transform
 	
-	# Показываем только Интро
+	# Скрываем всё лишнее, показываем Интро
 	ui_intro.show()
 	ui_main.hide()
 	ui_settings.hide()
 	ui_lobby.hide()
 	
-	# Сбрасываем подменю
 	start_menu.show()
 	multi_menu.hide()
 	
-	# --- ПОДКЛЮЧЕНИЕ КНОПКИ ИНТРО ---
-	# Нажали старт -> летим к монитору
+	# 2. ПОДКЛЮЧЕНИЕ ГРАФИЧЕСКИХ НАСТРОЕК (НОВОЕ)
+	# Подключаем сигналы к нашему SettingsManager
+	check_full.toggled.connect(SettingsManager.set_fullscreen)
+	check_vsync.toggled.connect(SettingsManager.set_vsync)
+	check_low.toggled.connect(SettingsManager.set_low_quality)
+	slider_res.value_changed.connect(SettingsManager.set_resolution_scale)
+	slider_audio.value_changed.connect(SettingsManager.set_volume)
+
+	var current_db = AudioServer.get_bus_volume_db(AudioServer.get_bus_index("Master"))
+	slider_audio.value = db_to_linear(current_db)
+	# Синхронизируем галочки с реальным состоянием окна
+	check_full.button_pressed = (DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN)
+	check_vsync.button_pressed = (DisplayServer.window_get_vsync_mode() == DisplayServer.VSYNC_ENABLED)
+	slider_res.value = get_viewport().scaling_3d_scale
+	
+
+	
+	# 3. ПОДКЛЮЧЕНИЕ НАВИГАЦИИ
+	
+	# Интро -> Главное меню
 	btn_intro_start.pressed.connect(func(): _move_camera(pos_main, ui_main))
 	
-	# --- НАВИГАЦИЯ ---
+	# Главное -> Настройки
 	btn_settings.pressed.connect(func(): _move_camera(pos_settings, ui_settings))
 	btn_back_settings.pressed.connect(func(): _move_camera(pos_main, ui_main))
 	
+	# Переключение внутри Главного (Мультиплеер)
 	btn_multi.pressed.connect(func(): 
 		start_menu.hide()
 		multi_menu.show()
@@ -75,7 +102,7 @@ func _ready():
 	
 	btn_quit.pressed.connect(func(): get_tree().quit())
 	
-	# --- ЛОГИКА ИГРЫ ---
+	# 4. ПОДКЛЮЧЕНИЕ ИГРОВОЙ ЛОГИКИ
 	btn_single.pressed.connect(_on_single_pressed)
 	btn_host.pressed.connect(_on_host_pressed)
 	btn_join.pressed.connect(_on_join_pressed)
@@ -89,35 +116,35 @@ func _ready():
 	multiplayer.connection_failed.connect(_on_connect_fail)
 	multiplayer.server_disconnected.connect(_on_server_disconnected)
 
-# --- ДВИЖЕНИЕ КАМЕРЫ ---
+
+# --- КАМЕРА ---
+
 func _move_camera(target_marker: Marker3D, target_ui: Control):
-	# Скрываем вообще всё во время полета
+	# Скрываем все UI во время полета
 	ui_intro.hide()
 	ui_main.hide()
 	ui_settings.hide()
 	ui_lobby.hide()
 	
 	var tween = create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC)
-	# Летим 1.5 секунды (чуть медленнее для красоты)
-	tween.tween_property(camera, "global_transform", target_marker.global_transform, 1.5)
+	tween.tween_property(camera, "global_transform", target_marker.global_transform, 1.2)
 	
 	await tween.finished
 	target_ui.show()
 
-# --- СЕТЕВАЯ ЛОГИКА ---
+# --- СЕТЬ ---
 
 func _on_single_pressed():
 	var peer = ENetMultiplayerPeer.new()
 	peer.create_server(PORT, 1)
 	multiplayer.multiplayer_peer = peer
-	print("Запуск одиночной игры...")
 	_load_game_level()
 
 func _on_host_pressed():
 	var peer = ENetMultiplayerPeer.new()
 	var error = peer.create_server(PORT, 4)
 	if error != OK:
-		print("Ошибка: " + str(error))
+		print("Ошибка создания сервера: " + str(error))
 		return
 	
 	multiplayer.multiplayer_peer = peer
@@ -131,7 +158,7 @@ func _on_join_pressed():
 	
 	var peer = ENetMultiplayerPeer.new()
 	if peer.create_client(ip, PORT) != OK:
-		print("Ошибка клиента")
+		print("Ошибка создания клиента")
 		return
 	multiplayer.multiplayer_peer = peer
 
@@ -141,8 +168,8 @@ func _on_connected_ok():
 	btn_start_game.hide()
 
 func _on_connect_fail():
+	print("Не удалось подключиться")
 	multiplayer.multiplayer_peer = null
-	# Тут можно добавить Alert Dialog
 
 func _on_server_disconnected():
 	multiplayer.multiplayer_peer = null
@@ -156,12 +183,12 @@ func _on_leave_lobby_pressed():
 	start_menu.show()
 	multi_menu.hide()
 
-# --- ИСПРАВЛЕННАЯ ФУНКЦИЯ ЛОББИ ---
+# --- ЛОББИ (ИСПРАВЛЕНО) ---
+
 func _update_lobby_list(_id = 0):
 	player_list.clear()
 	
-	# --- ФИКС ЗДЕСЬ ---
-	# Превращаем PackedInt32Array в обычный Array
+	# Конвертируем PackedInt32Array в Array, чтобы работал push_front
 	var peers = Array(multiplayer.get_peers())
 	peers.push_front(multiplayer.get_unique_id())
 	
@@ -172,6 +199,8 @@ func _update_lobby_list(_id = 0):
 		if p_id == 1:
 			p_name += " [HOST]"
 		player_list.add_item(p_name)
+
+# --- ЗАПУСК ---
 
 func _on_start_game_pressed():
 	start_game_rpc.rpc()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=3 uid="uid://5yb0v6ok1ewq"]
+[gd_scene load_steps=44 format=3 uid="uid://5yb0v6ok1ewq"]
 
 [ext_resource type="Script" uid="uid://cpgxha2gvyj76" path="res://scripts/managers/AdvancedHorrorLight .gd" id="1_1g8jr"]
 [ext_resource type="Script" uid="uid://dyjbcmkrg1spa" path="res://scripts/managers/main_menu.gd" id="1_btxxm"]
@@ -18,6 +18,8 @@
 [ext_resource type="PackedScene" uid="uid://kisoyqsu0avt" path="res://assets/models/player/player_model.tscn" id="13_n4uci"]
 [ext_resource type="PackedScene" uid="uid://bk3oh1xgt1wv5" path="res://assets/models/Monstrs/scene.gltf" id="14_n4uci"]
 [ext_resource type="Texture2D" uid="uid://d18lxtsh5mapp" path="res://assets/texture/blend/office 3/textures/Office_white_ceiling_tiles_Base_Color.jpg" id="15_877pj"]
+[ext_resource type="AudioStream" uid="uid://cfdr1gs2s22tk" path="res://assets/sounds/backrooms-buzzing-sound-effect.mp3" id="19_5dct7"]
+[ext_resource type="PackedScene" uid="uid://ctjk3q70ke7tb" path="res://Lamp.tscn" id="20_qilvv"]
 
 [sub_resource type="Environment" id="Environment_uhagc"]
 background_mode = 1
@@ -462,3 +464,86 @@ material = SubResource("StandardMaterial3D_8g5eo")
 transform = Transform3D(-3.934025e-06, 0, 90, 0, 3, 0, -90, 0, -3.934025e-06, -4.5, 7.445, -30)
 mesh = SubResource("BoxMesh_ayp64")
 skeleton = NodePath("../..")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("19_5dct7")
+volume_db = -10.915
+autoplay = true
+
+[node name="lamp" type="Node3D" parent="."]
+
+[node name="StaticBody3D2" parent="lamp" instance=ExtResource("20_qilvv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, 6, -1.6)
+
+[node name="StaticBody3D3" parent="lamp" instance=ExtResource("20_qilvv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 6, -15.6)
+
+[node name="StaticBody3D4" parent="lamp" instance=ExtResource("20_qilvv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 6, -27.8)
+
+[node name="StaticBody3D5" parent="lamp" instance=ExtResource("20_qilvv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.7, 6, -40.7)
+
+[node name="StaticBody3D6" parent="lamp" instance=ExtResource("20_qilvv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 6, -27.5)
+
+[node name="StaticBody3D7" parent="lamp" instance=ExtResource("20_qilvv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33.9, 6, -26.6)
+
+[node name="StaticBody3D8" parent="lamp" instance=ExtResource("20_qilvv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33.9, 6, -39.8)
+
+[node name="StaticBody3D9" parent="lamp" instance=ExtResource("20_qilvv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 6, -40.7)
+
+[node name="StaticBody3D" parent="lamp" instance=ExtResource("20_qilvv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 6, -7)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="lamp"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -7.9, 5.4, -15.6)
+light_color = Color(0.91764706, 0.9372549, 0.37254903, 1)
+light_energy = 9.775
+spot_range = 8.0
+script = ExtResource("1_1g8jr")
+
+[node name="SpotLight3D2" type="SpotLight3D" parent="lamp"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -7.9, 5.4, -27.6)
+light_color = Color(0.91764706, 0.9372549, 0.37254903, 1)
+light_energy = 9.775
+spot_range = 8.0
+script = ExtResource("1_1g8jr")
+
+[node name="SpotLight3D3" type="SpotLight3D" parent="lamp"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -7.9, 5.4, -40.6)
+light_color = Color(0.91764706, 0.9372549, 0.37254903, 1)
+light_energy = 9.775
+spot_range = 8.0
+script = ExtResource("1_1g8jr")
+
+[node name="SpotLight3D4" type="SpotLight3D" parent="lamp"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -33.9, 5.4, -26.6)
+light_color = Color(0.91764706, 0.9372549, 0.37254903, 1)
+light_energy = 9.775
+spot_range = 8.0
+script = ExtResource("1_1g8jr")
+
+[node name="SpotLight3D5" type="SpotLight3D" parent="lamp"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -33.9, 5.4, -39.6)
+light_color = Color(0.91764706, 0.9372549, 0.37254903, 1)
+light_energy = 9.775
+spot_range = 8.0
+script = ExtResource("1_1g8jr")
+
+[node name="SpotLight3D6" type="SpotLight3D" parent="lamp"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -23.9, 5.4, -27.6)
+light_color = Color(0.91764706, 0.9372549, 0.37254903, 1)
+light_energy = 9.775
+spot_range = 8.0
+script = ExtResource("1_1g8jr")
+
+[node name="SpotLight3D7" type="SpotLight3D" parent="lamp"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -23.9, 5.4, -40.6)
+light_color = Color(0.91764706, 0.9372549, 0.37254903, 1)
+light_energy = 9.775
+spot_range = 8.0
+script = ExtResource("1_1g8jr")

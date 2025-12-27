@@ -5,7 +5,7 @@ const PLAYER_SCENE = preload("res://scenes/Characters/Player.tscn")
 const MONSTER_SCENE = preload("res://scenes/Characters/SmartMonster.tscn")
 const KEY_SCENE = preload("res://scenes/interactables/item scenes/Pickup_KeyRed.tscn")
 const BATTERY_SCENE = preload("res://scenes/interactables/item scenes/battery.tscn")
-
+const MAIN_MENU_PATH = "res://scenes/ui/main_menu.tscn"
 # --- ССЫЛКИ НА НОДЫ ---
 @onready var players_container = $Players
 @onready var player_spawns_container = $PlayerSpawns
@@ -39,6 +39,9 @@ func _ready():
 		# Ждем чуть-чуть, чтобы всё прогрузилось
 		await get_tree().create_timer(0.5).timeout
 		spawn_level_loot()
+		pass
+	else:
+		multiplayer.server_disconnected.connect(_on_server_loss)
 
 # --- ФУНКЦИЯ, КОТОРАЯ СОЗДАЕТ ПРЕДМЕТЫ (РАБОТАЕТ У ВСЕХ) ---
 # Эта функция вызывается Спавнером автоматически и на Сервере, и на Клиенте.
@@ -137,3 +140,79 @@ func spawn_monster():
 	else:
 		monster.position = Vector3(0,1,0)
 	$Enemies.add_child(monster, true)
+
+func check_game_over():
+	# Только сервер проверяет
+	if not multiplayer.is_server(): 
+		return
+	
+	var players = players_container.get_children()
+	
+	# Если игроков нет, выходим
+	if players.size() == 0: 
+		return 
+	
+	# --- ВОТ ЭТОЙ СТРОКИ НЕ ХВАТАЛО ---
+	var all_dead = true 
+	# ----------------------------------
+	
+	print("--- СЕРВЕР: ПРОВЕРКА НА СМЕРТЬ ---")
+	
+	for p in players:
+		# Проверяем, жив ли игрок
+		# (Если хоть один жив -> all_dead становится false)
+		if "is_dead" in p and not p.is_dead:
+			all_dead = false
+			print(" -> Игрок ", p.name, " ЖИВ.")
+			break # Дальше можно не проверять, игра продолжается
+	
+	if all_dead:
+		print("ИТОГ: Все мертвы. Перезапуск...")
+		call_deferred("_trigger_restart")
+	else:
+		print("ИТОГ: Игра продолжается.")
+
+func restart_game():
+	get_tree().reload_current_scene()
+
+
+# --- ФУНКЦИЯ ДЛЯ ВЫПАДЕНИЯ ВЕЩЕЙ ИЗ ИГРОКОВ ---
+func spawn_dropped_item(item_type: String, drop_pos: Vector3):
+	if not multiplayer.is_server(): return
+	
+	# Добавляем случайный разброс, чтобы вещи не лежали друг в друге
+	var scatter_x = randf_range(-0.5, 0.5)
+	var scatter_z = randf_range(-0.5, 0.5)
+	var final_pos = drop_pos + Vector3(scatter_x, 0.5, scatter_z) # 0.5 по Y, чтобы не в пол
+	
+	var data = {
+		"type": item_type,
+		"pos": final_pos,
+		"rot_y": randf_range(0, 360)
+	}
+	
+	# Используем тот же спавнер, что и для генерации уровня!
+	item_spawner.spawn(data)
+	print("Level: Предмет выпал из игрока -> ", item_type)
+
+func _trigger_restart():
+	await get_tree().create_timer(3.0).timeout
+	restart_game_rpc.rpc()
+
+@rpc("call_local")
+func restart_game_rpc():
+	get_tree().reload_current_scene()
+
+
+func _on_server_loss():
+	print("Связь с сервером потеряна! Возврат в меню...")
+	
+	# 1. Очищаем сетевой пир (чтобы движок забыл о старом подключении)
+	multiplayer.multiplayer_peer = null
+	
+	# 2. ВАЖНО: Освобождаем курсор мыши!
+	# Иначе в меню не получится нажать кнопки
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	
+	# 3. Загружаем главное меню
+	get_tree().change_scene_to_file(MAIN_MENU_PATH)

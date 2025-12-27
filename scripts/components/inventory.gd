@@ -64,3 +64,36 @@ func use_item_by_index(index: int):
 	if used_successfully:
 		items.remove_at(index)
 		inventory_updated.emit()
+
+# Вызывается сервером при смерти
+func drop_all_items(drop_position: Vector3):
+	# Находим уровень (корневую ноду)
+	# ВАЖНО: Путь "/root/level" должен совпадать с именем корня твоей сцены!
+	# Если сцена называется "Level0", то пиши "/root/Level0".
+	# Универсальный способ - искать по группе или брать get_tree().current_scene
+	var level = get_tree().current_scene
+	
+	if not level.has_method("spawn_dropped_item"):
+		print("ОШИБКА: Сцена уровня не имеет метода spawn_dropped_item")
+		return
+
+	print("Инвентарь: Выбрасываем ", items.size(), " предметов...")
+
+	for item in items:
+		var type_string = ""
+		
+		# Определяем, что это за предмет
+		match item.type:
+			ItemData.Type.KEY:
+				type_string = "key"
+			ItemData.Type.BATTERY:
+				type_string = "battery"
+			# Если добавишь записки, не забудь: 
+			# ItemData.Type.NOTE: type_string = "note"
+		
+		if type_string != "":
+			level.spawn_dropped_item(type_string, drop_position)
+	
+	# Очищаем инвентарь после сброса
+	items.clear()
+	inventory_updated.emit()
